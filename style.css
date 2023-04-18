@@ -74,10 +74,12 @@
     /* border: 10px solid firebrick; */
     flex-direction: row;
 }
-.secondLevel {
+.SecondLevel {
+    display:flex;
+
     /* border: 10px solid firebrick; */
 }
-.thirdLevel {
+.ThirdLevel {
     /* border: 10px solid firebrick; */
 }
 .FourthLevel {
@@ -149,7 +151,15 @@ button:focus {
 button:focus-visible {
   box-shadow: none;
 }
-
+select {
+    display: flex;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    padding: .5rem;
+    /* margin-left: 55px; */
+    margin-bottom: 10px;
+}
 input[type="text"] {
     border: 1px solid rgb(209,213,219);
     border-radius: .4rem;
@@ -373,5 +383,11 @@ input[type="button"]:focus-visible {
     }
     .APIKeys{
         flex-direction: column;
+    }
+    .SecondLevel {
+        display:flex;
+        flex-direction: row;
+        margin-left: 3.6rem;
+        /* border: 10px solid firebrick; */
     }
 }

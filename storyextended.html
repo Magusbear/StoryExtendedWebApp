@@ -69,10 +69,18 @@
                             </form>
                         </div>
                 </div>
-                <div class="SeconLevel">
+                <div class="SecondLevel">
                     <form action="/database.php">
                         <label for="ConditionType">Condition Type:</label><br>
-                        <input type="text" id="ConditionType" name="ConditionType" title="Decides when or if this dialogue will be displayed. Example: 'level' gates the dialogue behind the player being a specific level (should only be used together with 'condition value' and 'greeting')"><br>
+                        <select name="ConditionType" id="ConditionType" title="Decides when or if this dialogue will be displayed. Example: 'level' gates the dialogue behind the player being a specific level (should only be used together with 'condition value' and 'greeting')">
+                            <option value="none" name="ConditionType" id="ConditionType">None</option>
+                            <option value="level" name="ConditionType" id="ConditionType">Level needed</option>
+                            <option value="quest-id" name="ConditionType" id="ConditionType">Finished Quest</option>
+                            <option value="do-once" name="ConditionType" id="ConditionType">See Dialogue only once</option>
+                        </select>
+
+                        <!-- <input type="text" id="ConditionType" name="ConditionType" title="Decides when or if this dialogue will be displayed. Example: 'level' gates the dialogue behind the player being a specific level (should only be used together with 'condition value' and 'greeting')"><br> -->
+                        
                         <label for="ConditionValue">Condition Value:</label><br>
                         <input type="text" id="ConditionValue" name="ConditionValue" title="The value of the condition type. Example: for condition type 'level' put in the level you want the player to reach before being able to access this dialogue (should only be used together with 'condition type' and 'greeting')">
                     </form>
