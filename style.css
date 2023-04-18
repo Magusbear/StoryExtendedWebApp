@@ -1,0 +1,377 @@
+:root {
+    --grey-color: #414141;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.nav-list{
+    display:flex;
+    gap: 2rem;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+.nav-list li{
+    font-size: 20px;
+    flex-direction: 100%;
+    /* justify-content: space-between; */
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.heading {
+    font-size: 16px;
+    margin-bottom: 5rem;
+    padding: .5rem;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+.APIKeys{
+    display: none;
+    visibility: hidden;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end; 
+    margin-top: 0px;
+    max-height: 200px;
+}
+.APIKeys * {
+    display: none;
+    flex-direction: row;
+    margin-bottom: 20px; 
+}
+
+
+.outer-left{
+    align-self: flex-start;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    /* border: 10px solid firebrick; */
+    flex-grow: 1;
+}
+.outer-right {
+    align-self: flex-start; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 10px solid firebrick; */
+    flex-grow: 1;
+}
+
+.FirstLevel {
+    /* border: 10px solid firebrick; */
+    flex-direction: row;
+}
+.secondLevel {
+    /* border: 10px solid firebrick; */
+}
+.thirdLevel {
+    /* border: 10px solid firebrick; */
+}
+.FourthLevel {
+    /* border: 10px solid firebrick; */
+}
+
+
+.db-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+.UtilityBtns {
+    margin-left: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-btn {
+    padding: .5rem;
+    flex-shrink: 1;
+}
+
+button{
+    background-color: #FFFFFF;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #111827;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    padding: .75rem 1rem;
+    text-align: center;
+    text-decoration: none #D1D5DB solid;
+    text-decoration-thickness: auto;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+button#playAiVoice{
+    display: none;
+    visibility: hidden;
+}
+
+button#dlAiVoice{
+    visibility: hidden;
+    display: none;
+}
+
+button:hover {
+  background-color: rgb(249,250,251);
+}
+
+button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  box-shadow: none;
+}
+
+input[type="text"] {
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    padding: .5rem;
+}
+
+input[type="password"] {
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    padding: .5rem;
+}
+
+input[type="number"] {
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    padding: .5rem;
+}
+
+input[type="checkbox"] {
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    min-height: 1.5rem;
+    min-width: 1.5rem;
+}
+
+textarea {
+    border: 1px solid rgb(209,213,219);
+    border-radius: .4rem;
+    box-sizing: border-box;
+}
+
+input[type="button"] {
+    background-color: #FFFFFF;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #111827;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    padding: .4rem;
+    text-align: center;
+    text-decoration: none #D1D5DB solid;
+    text-decoration-thickness: auto;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+input[type="button"]:hover {
+    background-color: rgb(249,250,251);
+}
+  
+input[type="button"]:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+  
+input[type="button"]:focus-visible {
+    box-shadow: none;
+}
+  
+/* The List of database(Browser localStorage) entries */
+#localStorageList {
+    background-color: white;
+    list-style: none;
+    padding: 0px;
+    margin-top: 50px;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .5rem;
+    box-sizing: border-box;
+}
+
+#localStorageList li:hover {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0 !important;
+}
+
+#localStorageList li {
+    margin: .25rem;
+    border-radius: .5rem;
+    padding: .5rem;
+}
+
+/* CSS */
+.btn_header {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: transparent 0 0 0 3px,rgba(18, 18, 18, .1) 0 6px 20px;
+  box-sizing: border-box;
+  color: #111827;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: .875rem;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25rem;
+  margin: 0;
+  outline: none;
+  padding: .75rem 1rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  transition: box-shadow .2s,-webkit-box-shadow .2s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn_header:hover {
+  box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
+}
+
+#Text {
+    max-width: 300px;
+    min-height: 240px;
+    text-align: left;
+    word-break: break-word;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    padding: .5rem;
+}
+@media screen and (min-width: 1400px){
+    #Text {
+        max-width: auto;
+    }
+}
+
+.logo {
+    height: 64px;
+    width: 64px;
+  }
+
+.logo img{
+    height:auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.AIbtns {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: flex-start; 
+}
+
+/* Spinning Loader from https://loading.io/css */
+.lds-dual-ring {
+    display: none;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 50px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #000000;
+    border-color: #000000 transparent #000000 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  /*END Spinning Loader from https://loading.io/css */
+
+
+@media screen and (max-width: 1300px){
+    .wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-list{
+        flex-direction: column;
+        align-items: center;
+    }
+    .UtilityBtns{
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0px;
+        padding: .5rem;
+    }
+    .outer-left{
+        align-self: auto;
+    }
+    
+    .middle {
+        align-self: auto;
+    }
+    
+    .outer-right {
+        align-self: auto; 
+    }
+    
+    .middle-right {
+        align-self: auto; 
+    }
+    
+    .AIbtns {
+        align-self: auto; 
+    }
+    .APIKeys{
+        flex-direction: column;
+    }
+}
