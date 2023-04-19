@@ -35,8 +35,8 @@
             <div class="UtilityBtns">
                 <!-- <div class="top-btn"><button id="save-all-btn" title="Saves everything again (Usually not needed as the page auto saves)">Save All</button></div> -->
                 <div class="top-btn"><button id= "downloadJsonBtn" title="Download database as JSON" >Download Lua</button></div>
-                <div class="top-btn"><button id= "newDialogueBtn" title="Add a new dialogue">New Dialogue</button></div>
                 <div class="top-btn"><button id= "changeApiKeys" title="Change the API Keys">Change API keys</button></div>
+                <div class="top-btn"><button id= "newDialogueBtn" title="Add a new dialogue">New Dialogue</button></div>
             </div>
         </div>
         <div class="APIKeys">
@@ -141,10 +141,31 @@
             </div>
         </div>
     </inputs>
+    <div class="AiOptionsParent">
+        <div class="top-btn"><button id= "changeTextGenSettings" title="Change text generation settings">Change Text AI Settings</button></div>
+        <div class="AiOptions">
+            <form>
+                <label for="aiCharDescription">OpenAI Character Description:</label><br>
+                <textarea id="aiCharDescription" name="aiCharDescription" rows="4" cols="50" title="A character description used by OpenAI for text generation"></textarea><br><br>
+
+                <label for="aiCharQuote">OpenAI Character Quote:</label><br>
+                <textarea id="aiCharQuote" name="aiCharQuote" rows="4" cols="50" title="A character quote used by OpenAI for better quality text generation"></textarea><br><br>
+
+                <label for="aiStaticPrompt">OpenAI Static Prompt:</label><br>
+                <textarea id="aiStaticPrompt" name="aiStaticPrompt" rows="4" cols="50" title="Only change if you are unsatisfied with the text generation quality and you know what you are doing. I suggest looking how the original static prompt is written before changing it"></textarea><br><br>
+
+                <div class="top-btn"><button id= "saveAiSettings" title="Save the OpenAi text generation settings">Save all AI Settings</button></div>
+            </form>
+        </div>
+    </div>
     <AiAudioGenerator>
         <div class="UtilityBtns">
                 <div class="VoiceAIbtns"><button id= "aivoice" title="Add a new dialogue">Generate AI Voice</button></div>
                 <div class="lds-dual-ring" id="voiceAiSpinner"></div><!-- Spinning Loader from https://loading.io/css -->
+                <div class="VoiceAIbtns"><button id= "toggleAiVoices" title="Show your saved AI voices">Show AI Voices</button></div>
+                <div class="db-wrapper">
+                    <div class="AiStorageList"><ul id="AiVoiceList"></ul></div>
+                </div>
                 <div class="VoiceAIbtns"><button id= "playAiVoice" title="Play the generated audio file">Play AI Voice</button></div>
                 <div class="VoiceAIbtns"><button id= "dlAiVoice" title="Download the generated audio file">Download AI Voice</button></div>
         </div>
