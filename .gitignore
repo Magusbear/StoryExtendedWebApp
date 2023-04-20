@@ -4,3 +4,5 @@ package-lock.json
 webpack.config.js
 AIDialogueGenerator.py
 DialogueExtender.py
+EasternKingdomsNPC.txt
+EasternKingdomsNPC.csv
