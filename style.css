@@ -170,7 +170,7 @@ button#dlAiVoice{
 
 .AiOptions{
     justify-content: center;
-    /* display: none; */
+    display: none;
     flex-direction: column;
     align-self: center;
     align-items: center;
