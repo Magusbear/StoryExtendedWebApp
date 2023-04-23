@@ -3,6 +3,7 @@ import jsonNameData from './EasternKingdomsNPC.json';
 import { setUpOpenAi } from './index.js';
 import { openDB, deleteDB, wrap, unwrap } from 'idb';
 import { StringMappingType } from 'typescript';
+declare const indexedDB: IDBFactory;
 
 //HTML elements WRAP THIS IN AN OBJECT {} LATER
 const submitAllFormsBtn = document.getElementById('save-all-btn');
@@ -28,6 +29,9 @@ const AIGenerate3 = document.getElementById("AIGenerate3")!;
 const AIGenerate4 = document.getElementById("AIGenerate4")!;
 const saveAiSettings = document.getElementById("saveAiSettings")!;
 const aivoice = document.getElementById("aivoice")!;
+const downloadDbBtn = document.getElementById("downloadDbBtn")!;
+const uploadDbBtn = document.getElementById("uploadDbBtn")!;
+const toggleuploadDbBtn = document.getElementById("toggleuploadDbBtn")!;
 
 //OpenAI prompt modifiers
 const initialAiCharDescription = "An orc. Recruiter and trainer for adventurers and warriors already belonging to the Horde. Is a veteran. A bit grumpy. Not impressed by you. He will give you some tasks later on to test you.";
@@ -304,13 +308,13 @@ async function writeIntoLocalStorage(){
                 console.log(`Created at ID ${newID}`)
             }
             else{
-                console.log("Nothing in IndexedDB, creating at ID 0")
+                console.log("Nothing in IndexedDB, creating at ID 1")
                 currentIdField.value = "1";
             };
 
         }
         else{
-            console.log("Nothing in IndexedDB, creating at ID 0")
+            console.log("Nothing in IndexedDB, creating at ID 1")
             currentIdField.value = "1";
         };
     };
@@ -328,7 +332,8 @@ async function writeIntoLocalStorage(){
       .filter(element => element.id !== "AIGenerate4")
       .filter(element => element.id !== "aiCharDescription")
       .filter(element => element.id !== "aiCharQuote")
-      .filter(element => element.id !== "aiStaticPrompt");
+      .filter(element => element.id !== "aiStaticPrompt")
+      .filter(element => element.type !== "file");
 
     let writeData = [];
     //let entryData!: DialogueObject;
@@ -365,7 +370,7 @@ async function writeIntoLocalStorage(){
 };
 
 inputFields.forEach(inputField => {
-    if(inputField.id != "openAiApiKey" && inputField.id != "elevenLabsApiKey" && inputField.id != "aiCharDescription" && inputField.id != "aiCharQuote" && inputField.id != "aiStaticPrompt"){
+    if(inputField.id != "openAiApiKey" && inputField.id != "elevenLabsApiKey" && inputField.id != "aiCharDescription" && inputField.id != "aiCharQuote" && inputField.id != "aiStaticPrompt" && inputField.id != "importFileInput"){
         inputField.addEventListener('input', () => {
             writeIntoLocalStorage()
             const nameInput = document.getElementById("Name")!;
@@ -425,7 +430,9 @@ function ClearLists(){
       .filter(element => element.id !== "AIGenerate4")
       .filter(element => element.id !== "aiCharDescription")
       .filter(element => element.id !== "aiCharQuote")
-      .filter(element => element.id !== "aiStaticPrompt");
+      .filter(element => element.id !== "aiStaticPrompt")
+      .filter(element => element.type !== "file");
+      
 
     for (let i = 0; i < inputsList.length; i++) {
         if(inputsList[i].type === 'checkbox'){
@@ -796,6 +803,149 @@ saveOpenAiApiKey.addEventListener('click', async (event) => {
     }
 });
 
+function showUploadButtons() {
+    const uploadDbBtn = document.getElementById("uploadDbBtn")!;
+    const importFileInput = document.getElementById("importFileInput")!;
+    uploadDbBtn.style.display = "Flex";
+    importFileInput.style.display = "Flex";
+};
+
+function hideUploadButtons() {
+    const uploadDbBtn = document.getElementById("uploadDbBtn")!;
+    const importFileInput = document.getElementById("importFileInput")!;
+    uploadDbBtn.style.display = "none";
+    importFileInput.style.display = "none";
+};
+
+toggleuploadDbBtn.addEventListener('click', async () => {
+    const uploadDbBtn = document.getElementById("uploadDbBtn")!;
+    const computedStyle = window.getComputedStyle(uploadDbBtn);
+    if (computedStyle.display === "none") {
+        showUploadButtons();
+    } else {
+        hideUploadButtons();
+    }
+});
+
+downloadDbBtn.addEventListener('click', async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+        let request = indexedDB.open('seDatabase');
+
+        request.onerror = (event) => {
+        console.log('Error opening database');
+        };
+
+        request.onsuccess = (event:any) => {
+        let db = event.target.result;
+
+        // Call the exportObjectStore function
+        exportObjectStore(db, 'dialogue-store');
+        };
+
+        let exportObjectStore = (database: IDBDatabase , storeName: string) => {
+        let exportRequest = database.transaction(storeName)
+                                 .objectStore(storeName)
+                                 .getAll();
+      
+        exportRequest.onsuccess = (event: any) => {
+            if(event.length != 0){
+            let data = event.target.result;
+            let blob = new Blob([JSON.stringify(data)], {type: "application/json"});
+            let url = URL.createObjectURL(blob);
+            let link = document.createElement('a');
+            link.href = url;
+            link.download = storeName + '.json';
+            link.click();
+            }
+            else{
+                console.warn("Database or ObjectStore not found.")
+            };
+        };
+      }
+    
+});
+
+async function importObjectStore(database: IDBDatabase, storeName: string, file: File): Promise<void> {
+    let reader = new FileReader();
+    reader.readAsText(file);
+    reader.onerror = () => {
+        console.warn("Error reading file.");
+      };    
+    reader.onload = async () => {
+        if (reader.result !== null) {
+            let savedDb = await getAllFromObjectStore("dialogue-store");
+            console.log(savedDb);
+            let data = JSON.parse(reader.result as string);
+            let importTransaction = database.transaction(storeName, 'readwrite');
+            let objectStore = importTransaction.objectStore(storeName);
+            let lastID = 0;
+            if (savedDb.length >= 1){
+                let sortedData:DialogueObject[] = sortKeys(savedDb);
+                console.log(sortedData);
+                let lastIndex: number = sortedData.length - 1;
+                let lastIDString: string = sortedData[lastIndex].id;
+                lastID = Number(lastIDString);
+            };
+            data.forEach((item:DialogueObject) => {
+                //want to shorten this when I find the time
+                if(lastID > 0){
+                    let newId: number = lastID + Number(item.id);
+                    let newIdString:string = newId.toString();
+                    item.id = newIdString;
+                    if (item.GoToID1 != "" && item.GoToID1 != "-1"){
+                        let newGoToId1: number = lastID + Number(item.GoToID1);
+                        let newGoToId1String:string = newGoToId1.toString();
+                        item.GoToID1 = newGoToId1String;
+                    };
+                    if (item.GoToID2 != "" && item.GoToID2 != "-1"){
+                        let newGoToId2: number = lastID + Number(item.GoToID2);
+                        let newGoToId2String:string = newGoToId2.toString();
+                        item.GoToID2 = newGoToId2String;
+                    };
+                    if (item.GoToID3 != "" && item.GoToID3 != "-1"){
+                        let newGoToId3: number = lastID + Number(item.GoToID3);
+                        let newGoToId3String:string = newGoToId3.toString();
+                        item.GoToID3 = newGoToId3String;
+                    };
+                    if (item.GoToID4 != "" && item.GoToID4 != "-1"){
+                        let newGoToId4: number = lastID + Number(item.GoToID4);
+                        let newGoToId4String:string = newGoToId4.toString();
+                        item.GoToID4 = newGoToId4String;
+                    };
+                };
+                // want to shorten this when I find the time ^^^^
+                objectStore.add(item);
+            });        
+            importTransaction.oncomplete = () => {
+                alert('Data imported successfully');
+            };
+        } else {
+            console.warn("Cant read file.")
+        };
+    };
+};
+
+
+uploadDbBtn.addEventListener('click', async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    //Query database
+    let request = indexedDB.open('seDatabase');
+    request.onerror = (event) => {
+    console.log('Error opening database');
+    };
+    request.onsuccess = (event:any) => {
+        let db = event.target.result;
+        let importFileInput = document.getElementById('importFileInput')!;
+        if (event.target && (importFileInput as HTMLInputElement).files){
+            let file = (importFileInput as HTMLInputElement).files![0];
+            importObjectStore(db, "dialogue-store", file);
+        }
+        else{
+            alert("Please choose a valid database .json file.")
+        };
+    }
+});
+
 function loadSpinnerShow(loadSpinner:HTMLElement) {
     loadSpinner.classList.add('animate');
     loadSpinner.style.display = "inline-block";
@@ -961,7 +1111,8 @@ async function populateDBList() {
               .filter(element => element.id !== "AIGenerate4")
               .filter(element => element.id !== "aiCharDescription")
               .filter(element => element.id !== "aiCharQuote")
-              .filter(element => element.id !== "aiStaticPrompt");
+              .filter(element => element.id !== "aiStaticPrompt")
+              .filter(element => element.type !== "file");
             
             //Go over every input field list item and input stored values
             for (let i = 0; i < inputsList.length; i++) {
@@ -981,7 +1132,7 @@ async function populateDBList() {
                 if (inputField.type === 'checkbox'){        //checkboxes need values put into "checked" not "value"
                     (inputField as HTMLInputElement).checked = valueInput as boolean;        // Set the value of the element to the value in the array
                 }
-                else if (inputField.type === 'number'){
+                else if (inputField.type === 'number' && valueInput != ""){
                     (inputField as HTMLInputElement).valueAsNumber = valueInput as number; 
                 }
                 else {

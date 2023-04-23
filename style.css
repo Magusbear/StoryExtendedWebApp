@@ -151,6 +151,20 @@ button#dlAiVoice{
     flex-wrap: wrap;
 }
 
+#importFileInput{
+    display:none;
+}
+
+#uploadDbBtn{
+    display:none;
+}
+
+#uploadDbBtn:hover + #importFileInput {
+    display: flex;
+};
+
+
+
 #AiVoiceList li {
     list-style: none;
     flex-basis: 50%; /* Set the width to 50% to have 2 items in each row */
