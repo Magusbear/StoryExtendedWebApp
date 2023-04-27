@@ -34,14 +34,16 @@
             </div>
             <div class="UtilityBtns">
                 <!-- <div class="top-btn"><button id="save-all-btn" title="Saves everything again (Usually not needed as the page auto saves)">Save All</button></div> -->
-                <div class="top-btn"><button id= "downloadJsonBtn" title="Download database as Lua for use in the Addon" >Download Lua</button></div>
+                <div class="top-btn"><button id= "downloadJsonBtn" title="Download database as Lua for use in the Addon" >Download DataAddon</button></div>
+                <div class="top-btn"><button id= "changeAddonSettings" title="Change general addon settings">Addon Settings</button></div><br><br>
                 <div class="top-btn"><button id= "toggleuploadDbBtn" title="Upload database to backup your data" >Upload database</button></div>
-                <div class="top-btn"><input type="file" id="importFileInput"></div>
-                <div class="top-btn"><button id= "uploadDbBtn" title="Upload database to backup your data" >Upload file</button></div>
                 <div class="top-btn"><button id= "downloadDbBtn" title="Download database to backup your data" >Download database</button></div>
-                <div class="top-btn"><button id= "changeApiKeys" title="Change the API Keys">Change API keys</button></div>
-                <div class="top-btn"><button id= "newDialogueBtn" title="Add a new dialogue">New Dialogue</button></div>
+                <div class="top-btn"><button id= "changeApiKeys" title="Change the API Keys">Change API keys</button></div><br><br>
             </div>
+        </div>
+        <div class="UtilityBtns">
+            <div class="top-btn"><input type="file" id="importFileInput"></div>
+            <div class="top-btn"><button id= "uploadDbBtn" title="Upload database to backup your data" >Upload file</button></div>
         </div>
         <div class="APIKeys">
             <form>
@@ -53,13 +55,22 @@
                 <div class="top-btn"><button id= "saveElevenLabsApiKey" title="Save the ElevenLabs API Key">Save ElevenLabs API Key</button></div>
             </form>
         </div>
+        <div class="addonSettings">
+            <form>
+                <label for="dataAddonName">Data Addon Name:</label><br>
+                <input type="text" id="dataAddonName" name="dataAddonName" title="The name of your dialogue data addon. The addon will be called 'StoryExtendedData_YOURNAME'"><br><br>
+                <label for="addonPriority">Addon Priority:</label><br>
+                <input type="number" id="addonPriority" name="addonPriority" title="If more than one dialoge data Addon is present and both specify dialogue for the same NPC the one with the higher priority always takes precedence"><br><br>
+                <div class="top-btn"><button id= "saveAddonSettings" title="Save the ElevenLabs API Key">Save Addon Settings</button></div>
+            </form>
+        </div>
     </Heading>
     <!-- End of Page Heading with Save Button -->
     <inputs>
         <div class="wrapper">
             <div class="outer-left">
                 <div class="FirstLevel">
-                    
+                        <div class="UtilityBtns"><div class="top-btn"><button id= "newDialogueBtn" title="Add a new dialogue">New Dialogue</button></div></div>
                         <div class="line">
                             <form>
                                 <label for="ID">ID:</label><br>

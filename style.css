@@ -53,6 +53,21 @@
     margin-bottom: 20px; 
 }
 
+.addonSettings{
+    display: none;
+    visibility: hidden;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end; 
+    margin-top: 0px;
+    max-height: 200px;
+}
+.addonSettings * {
+    display: none;
+    flex-direction: row;
+    margin-bottom: 20px; 
+}
+
 
 .outer-left{
     align-self: flex-start;
@@ -101,6 +116,14 @@
     margin-left: 100px;
     display: flex;
     justify-content: space-between;
+}
+
+#importFileInput{
+    align-self: flex-end;
+}
+
+#uploadDbBtn{
+    align-self: flex-end;
 }
 
 button{

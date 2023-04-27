@@ -2,6 +2,7 @@ import { queryAI } from './index.js';
 import jsonNameData from './EasternKingdomsNPC.json';
 import { setUpOpenAi } from './index.js';
 import { openDB, deleteDB, wrap, unwrap } from 'idb';
+import JSZip from 'jszip';
 import { StringMappingType } from 'typescript';
 declare const indexedDB: IDBFactory;
 
@@ -32,12 +33,23 @@ const aivoice = document.getElementById("aivoice")!;
 const downloadDbBtn = document.getElementById("downloadDbBtn")!;
 const uploadDbBtn = document.getElementById("uploadDbBtn")!;
 const toggleuploadDbBtn = document.getElementById("toggleuploadDbBtn")!;
+const changeAddonSettings = document.getElementById("changeAddonSettings")!;
+const saveAddonSettings = document.getElementById("saveAddonSettings")!;
+const dataAddonName = document.getElementById("dataAddonName")!;
+const addonPriority = document.getElementById("addonPriority")!;
+const currentAppVersion:string =  "0.1";
+const dbVersion = 1;                // Current Database DB. Needs to be incremented when any keys in the database change
+const currentAddonVersion = 0.1;    // Current WoW Addon version
+
 
 //OpenAI prompt modifiers
 const initialAiCharDescription = "An orc. Recruiter and trainer for adventurers and warriors already belonging to the Horde. Is a veteran. A bit grumpy. Not impressed by you. He will give you some tasks later on to test you.";
 const initialAiCharQuote = " ";
 const initialAiStaticPrompt = "You are a character in the world of warcraft. Write as if you were the character and use a personality fitting for that character. Never break character, never talk for someone but yourself, never write out the type of your answer, never use curly brackets. Be creative. Write around 200 characters. What follows is your name, a description about you, a quote said by you (dont repeat the quote!), what you said last (Your_last_answer) and the question the player is asking. Answer only directly to the question in curly brackets.";
 
+//Addon settings
+let inputFolderName:string;
+let inputPriority:number;
 
 //Helper variables for storing data in LocalStorage mostly or holding data for <a session
 let aiCharDescription = "";
@@ -89,7 +101,6 @@ interface webAppObject {
 //Initializes the database, creates the object stores and writes api key placeholders
 async function initializeDatabase() {
     const dbName = 'seDatabase';
-    const dbVersion = 1;
     const db = await openDB(dbName, dbVersion, {
       upgrade(db, oldVersion, newVersion, transaction) {
         // This is called when the database is created or upgraded
@@ -279,11 +290,45 @@ async function initializeOpenAiSettings() {
 
 };
 
+async function initializeAddonSettings() {
+    let savedAddonSettings = await readFromDB("addonSettings", "web-app-store")
+    
+    // Get a random NPC name from the JSON data if none was given yet
+    const npcNamesArray = jsonNameData[0]; // Get the first array
+    const randomIndex = Math.floor(Math.random() * npcNamesArray.length);
+    const randomName = npcNamesArray[randomIndex];
+    let addonPriorityInitial = false;
+    let addonNameInititial = false;
+    // Remove spaces from the name
+    const nameWithoutSpaces = randomName.replace(/\s/g, '');
+
+    if (savedAddonSettings && savedAddonSettings.addonPriority){
+        (document.getElementById("addonPriority") as HTMLInputElement).value = savedAddonSettings.addonPriority;
+    }else{
+        (document.getElementById("addonPriority") as HTMLInputElement).value = "100";
+        addonPriorityInitial = true
+    };
+    if (savedAddonSettings && savedAddonSettings.dataAddonName != ""){
+        (document.getElementById("dataAddonName") as HTMLInputElement).value = savedAddonSettings.dataAddonName;
+    }else{
+        (document.getElementById("dataAddonName") as HTMLInputElement).value = nameWithoutSpaces;
+        addonNameInititial = true;
+
+    };
+    inputPriority = parseInt((document.getElementById("addonPriority") as HTMLInputElement)?.value ?? 100);
+    inputFolderName = (document.getElementById("dataAddonName") as HTMLInputElement)?.value ?? nameWithoutSpaces;
+    if (addonPriorityInitial === true && addonNameInititial === true){
+        const newSettings = {id: "addonSettings",  addonPriority: inputPriority, dataAddonName: inputFolderName }
+        await saveDataToDB(newSettings, "web-app-store");
+    };
+};
+
 
 // runs database init and co  
 async function main() {
     await initializeDatabase();
     await writeApiKeysToForms();
+    await initializeAddonSettings();
 }
 // runs database init and co  
 main();
@@ -370,7 +415,7 @@ async function writeIntoLocalStorage(){
 };
 
 inputFields.forEach(inputField => {
-    if(inputField.id != "openAiApiKey" && inputField.id != "elevenLabsApiKey" && inputField.id != "aiCharDescription" && inputField.id != "aiCharQuote" && inputField.id != "aiStaticPrompt" && inputField.id != "importFileInput"){
+    if(inputField.id != "openAiApiKey" && inputField.id != "elevenLabsApiKey" && inputField.id != "aiCharDescription" && inputField.id != "aiCharQuote" && inputField.id != "aiStaticPrompt" && inputField.id != "importFileInput" && inputField.id != "dataAddonName" && inputField.id != "addonPriority"){
         inputField.addEventListener('input', () => {
             writeIntoLocalStorage()
             const nameInput = document.getElementById("Name")!;
@@ -479,19 +524,35 @@ function convertToLuaTable(arr:DialogueObject[]) {
 }
 
 async function downloadLocalStorageAsLua() {
-    
+    const randomNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     const dbDump = await getAllFromObjectStore('dialogue-store');
-    let luaTable = "Dialogues = {\n";
-    const convertedLuaTable = convertToLuaTable(dbDump);     
+    let luaTable = `SEDialogues${randomNumber} = {\n`;
+    const convertedLuaTable = convertToLuaTable(dbDump);
     luaTable += `${convertedLuaTable}`;
     luaTable += "}";
-  
-    const luaBlob = new Blob([luaTable], {type: 'text/plain'});
-    const luaUrl = URL.createObjectURL(luaBlob);
-  
+    const mainLuaTable: string = `local addonName = "StoryExtendedData_${inputFolderName}"\nlocal function GetDialogueData()\n    return SEDialogues${randomNumber} \nend\n\nlocal StoryExtendedData${randomNumber} = {\n    GetDialogue = GetDialogueData()\n}\n\nStoryExtended:Register(addonName, StoryExtendedData${randomNumber})`;
+    const tocFile: string = `## Interface: 100000\n## Title: StoryExtendedData_${inputFolderName}\n## Version: ${currentAddonVersion}\n## LoadOnDemand: 1\n## Dependencies: StoryExtended\n## X-StoryExtendedData-Parent: StoryExtended\n## X-StoryExtendedData-Data-Version: ${dbVersion}\n## X-StoryExtendedData-Priority: ${inputPriority}\n## X-StoryExtendedData-WebApp-Version: ${currentAppVersion}\ndb/dialogue.lua\nmain.lua`
+
+    const tocBlob = new Blob([tocFile], {type: 'text/plain'});
+    const mainLuaBlob = new Blob([mainLuaTable], {type: 'text/plain'});
+    const DialogueLuaBlob = new Blob([luaTable], {type: 'text/plain'});
+
+    const zip = new JSZip();
+    const mainFolder = zip.folder(`StoryExtendedData_${inputFolderName}`);
+    const dbFolder = mainFolder!.folder("db");
+    dbFolder!.file("dialogue.lua", DialogueLuaBlob);
+    mainFolder!.file("main.lua", mainLuaBlob);
+    mainFolder!.file(`StoryExtendedData_${inputFolderName}.toc`, tocBlob);
+    const content = await zip.generateAsync({ type: 'blob' });
+
+
+
+
+
+    const luaUrl = URL.createObjectURL(content);
     const link = document.createElement('a');
     link.href = luaUrl;
-    link.download = 'dialogue.lua';
+    link.download = `StoryExtendedData_${inputFolderName}.zip`;
     document.body.appendChild(link);
     link.click();
 }
@@ -616,6 +677,7 @@ function hideVoiceAiButtons() {
     dlButton.style.display = "None";
 };
 
+// Hide and Show API Key Inputs
 function showChangeApiKeyBtn() {
     const changeApiKeyBtn = document.getElementsByClassName("APIKeys").item(0);
     const APIKeysParent = document.querySelector('.APIKeys')!;
@@ -653,6 +715,62 @@ changeApiKeys.addEventListener('click', () => {
         showChangeApiKeyBtn();
     }
 });
+//END - Hide and Show API Key Inputs
+
+// Hide and Show Addon Settings Inputs
+function showAddonSettings() {
+    const addonSettingsCapsule = document.getElementsByClassName("addonSettings").item(0);
+    const addonSettingsParent = document.querySelector('.addonSettings')!;
+    const addonSettingsChildren = addonSettingsParent.querySelectorAll('*')!;
+    addonSettingsChildren.forEach(addonSettingsChild => {
+        (addonSettingsChild as HTMLElement).style.visibility = "visible";
+        (addonSettingsChild as HTMLElement).style.display = "flex";
+    });
+    (addonSettingsCapsule as HTMLElement).style.visibility = "visible";
+    (addonSettingsCapsule as HTMLElement).style.display = "flex";
+};
+
+function hideAddonSettings() {
+    const addonSettingsCapsule = document.getElementsByClassName("addonSettings").item(0);
+    const addonSettingsParent = document.querySelector('.addonSettings')!;
+    const addonSettingsChildren = addonSettingsParent.querySelectorAll('*')!;
+    addonSettingsChildren.forEach(addonSettingsChild => {
+        (addonSettingsChild as HTMLElement).style.visibility = "hidden";
+        (addonSettingsChild as HTMLElement).style.display = "None";
+    });
+    (addonSettingsCapsule as HTMLElement).style.visibility = "hidden";
+    (addonSettingsCapsule as HTMLElement).style.display = "None";
+};
+
+function checkAddonSettingsVisibility() {
+    const addonSettingsCapsule = document.getElementsByClassName("addonSettings").item(0)!;
+    const adnStnsVisibility = getComputedStyle(addonSettingsCapsule).getPropertyValue("visibility");
+    return adnStnsVisibility;
+};
+
+changeAddonSettings.addEventListener('click', (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    if (checkAddonSettingsVisibility() === "visible") {
+        hideAddonSettings();
+    } else {
+        showAddonSettings();
+    }
+});
+
+saveAddonSettings.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    if ((addonPriority as HTMLInputElement).value && (dataAddonName as HTMLInputElement).value){
+            const newAddonName = ((dataAddonName as HTMLInputElement).value as string);
+            const newAddonPriority:number = (Number((addonPriority as HTMLInputElement).value));
+            const newSettings = {id: "addonSettings",  addonPriority: newAddonPriority, dataAddonName: newAddonName }
+            await saveDataToDB(newSettings, "web-app-store");
+    } else {
+        alert("Please input both Addon Name and Addon Priority");
+    };
+});
+
+
+//END - Hide and Show Addon Settings Inputs
 
 async function saveOpenAiSettings() {
     const npcName = (document.getElementById("Name") as HTMLInputElement).value || "";
@@ -1149,7 +1267,8 @@ async function populateDBList() {
 
             }
 
-            initializeOpenAiSettings()
+            await initializeOpenAiSettings()
+            await initializeAddonSettings()
         });
    };
 };  
