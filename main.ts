@@ -68,7 +68,7 @@ let openAiApiKey = "";
 let elevenLabsApiKey = "";
 
 interface DialogueObject {
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | Blob;
     id: string;
     Name: string;
     ConditionValue:string;
@@ -88,6 +88,8 @@ interface DialogueObject {
     DoOnce3:boolean;
     DoOnce4:boolean;
     Text:string;
+    audio:Blob;
+    audioName:string;
 };
 
 interface apiKeyObject {
@@ -382,6 +384,8 @@ async function writeIntoLocalStorage(){
       .filter(element => element.id !== "aiCharDescription")
       .filter(element => element.id !== "aiCharQuote")
       .filter(element => element.id !== "aiStaticPrompt")
+      .filter(element => element.id !== "addonPriority")
+      .filter(element => element.id !== "dataAddonName")
       .filter(element => element.type !== "file");
 
     let writeData = [];
@@ -520,7 +524,9 @@ function convertToLuaTable(arr:DialogueObject[]) {
     for (let obj of arr) {
       let keyValuePairs = [];
       for (let [key, value] of Object.entries(obj)) {
-        keyValuePairs.push(`${key}="${value}"`);
+        if(key != "audioName" && key != "audio"){
+            keyValuePairs.push(`${key}="${value}"`);
+        };
       }
       luaString += `{\n${keyValuePairs.join(',\n')}\n},\n`;
     }
@@ -544,9 +550,16 @@ async function downloadLocalStorageAsLua() {
     const zip = new JSZip();
     const mainFolder = zip.folder(`StoryExtendedData_${inputFolderName}`);
     const dbFolder = mainFolder!.folder("db");
+    const audioFolder = mainFolder!.folder("audio");
     dbFolder!.file("dialogue.lua", DialogueLuaBlob);
     mainFolder!.file("main.lua", mainLuaBlob);
     mainFolder!.file(`StoryExtendedData_${inputFolderName}.toc`, tocBlob);
+
+    for(let key in dbDump){
+        let audioBlob = dbDump[key].audio
+        let audioName = dbDump[key].audioName as string
+        audioFolder!.file(audioName, audioBlob);
+    };
     const content = await zip.generateAsync({ type: 'blob' });
 
 
@@ -626,11 +639,12 @@ async function AI_GenerateAnswer(QuestionField:number, textAIspinner:HTMLElement
         // Write new generated text and input fields that are relevant into database under new id
         let savedData = await readFromDB(nextIdString, 'dialogue-store')         //read from DB for merging
         //we construct our data array with the variables we want to save
+        const emptyBlob = new Blob([]);
         const data: DialogueObject = { id: nextIdString, Name: nameField, ConditionType: ConditionTypeField, 
         Text: outputFormatted, ConditionValue: "", FirstAnswer: "",
         GoToID1: "", SecondAnswer: "", GoToID2: "", ThirdAnswer: "", GoToID3: "",
         FourthAnswer: "", GoToID4: "", UseAudio: false, Greeting: false, DoOnce1: false, 
-        DoOnce2: false, DoOnce3:false, DoOnce4: false }
+        DoOnce2: false, DoOnce3:false, DoOnce4: false, audio: emptyBlob, audioName: "" }
         //Checking if data already exists --- it shouldn't because the next ID is always one bigger than the max index
         if(savedData){
             const mergedData = { ...savedData, ...data };                   //we merge our new data array with whatever is already in the DB
@@ -649,14 +663,25 @@ async function AI_GenerateAnswer(QuestionField:number, textAIspinner:HTMLElement
 
 }
 
-dlAiVoice.addEventListener('click', () => {
-    const name:string = (document.getElementById("Name") as HTMLInputElement)?.value || "unknown";
+dlAiVoice.addEventListener('click', async () => {
+    const name: string = (document.getElementById("Name") as HTMLInputElement)?.value || "unknown";
     const id = (document.getElementById("ID") as HTMLInputElement)?.value || "0";
-    const link = document.createElement('a');
-    link.href = generatedAudioUrl;
-    link.download = name + id + '.mp3';
-    document.body.appendChild(link);
-    link.click();
+    const audioName = name + id + '.mp3';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', generatedAudioUrl, true);
+    xhr.responseType = 'blob';
+    xhr.onload = async () => {
+        if (xhr.status === 200) {
+            const audioBlob = xhr.response;
+            let savedData = await readFromDB(id, "dialogue-store");
+            const data = { id: id, audioName: audioName, audio: audioBlob };
+            const mergedData = { ...savedData, ...data };
+            await saveDataToDB(mergedData, "dialogue-store");
+        }
+    };
+
+    xhr.send();
 });
 
 playAiVoice.addEventListener('click', () => {
