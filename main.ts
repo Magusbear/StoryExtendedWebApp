@@ -37,6 +37,10 @@ const changeAddonSettings = document.getElementById("changeAddonSettings")!;
 const saveAddonSettings = document.getElementById("saveAddonSettings")!;
 const dataAddonName = document.getElementById("dataAddonName")!;
 const addonPriority = document.getElementById("addonPriority")!;
+const deleteDbBtn = document.getElementById("deleteDbBtn")!;
+const dbDelModal = document.querySelector('.dbDelModal') as HTMLElement;
+const yesButton = document.querySelector('#yes-button') as HTMLElement;
+const noButton = document.querySelector('#no-button') as HTMLElement;
 const currentAppVersion:string =  "0.1";
 const dbVersion = 1;                // Current Database DB. Needs to be incremented when any keys in the database change
 const currentAddonVersion = 0.1;    // Current WoW Addon version
@@ -769,6 +773,48 @@ saveAddonSettings.addEventListener('click',async (event) => {
     };
 });
 
+
+
+function showDbDelModal() {
+    dbDelModal.style.display = 'block';
+    yesButton.addEventListener('click', handleYesClickDbDel);
+    noButton.addEventListener('click', handleNoClickDbDel);
+  }
+  
+  function hideDbDelModal() {
+    dbDelModal.style.display = 'none';
+  }
+  
+  async function handleYesClickDbDel() {
+    // Code to delete the indexedDB
+    const dbName = 'seDatabase';
+    const deleteRequest = indexedDB.deleteDatabase(dbName);
+    deleteRequest.onsuccess = () => {
+    console.log(`Deleted ${dbName} database`);
+    location.reload();
+    };
+    deleteRequest.onerror = () => {
+    console.error(`Error deleting ${dbName} database`);
+    };
+    hideDbDelModal();
+  }
+  
+  function handleNoClickDbDel() {
+    hideDbDelModal();
+  }
+
+
+deleteDbBtn.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    const computedStyle = window.getComputedStyle(dbDelModal);
+    if (computedStyle.display === "none") {
+        console.log("Show")
+        showDbDelModal();
+    } else {
+        hideDbDelModal();
+        console.log("Hide")
+    }
+});
 
 //END - Hide and Show Addon Settings Inputs
 

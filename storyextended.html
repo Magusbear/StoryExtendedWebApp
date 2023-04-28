@@ -38,9 +38,22 @@
                 <div class="top-btn"><button id= "changeAddonSettings" title="Change general addon settings">Addon Settings</button></div><br><br>
                 <div class="top-btn"><button id= "toggleuploadDbBtn" title="Upload database to backup your data" >Upload database</button></div>
                 <div class="top-btn"><button id= "downloadDbBtn" title="Download database to backup your data" >Download database</button></div>
+                <div class="top-btn"><button id= "deleteDbBtn" title="Delete database" >Delete database</button></div>
                 <div class="top-btn"><button id= "changeApiKeys" title="Change the API Keys">Change API keys</button></div><br><br>
             </div>
         </div>
+        <!--Delete database warning-->
+        <div class="dbDelModal">
+            <div class="modal-content">
+              <h2>Are you sure?</h2>
+              <p>This action cannot be undone.</p>
+              <div class="button-container">
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
+              </div>
+            </div>
+        </div>
+        <!--End: Delete database warning-->
         <div class="UtilityBtns">
             <div class="top-btn"><input type="file" id="importFileInput"></div>
             <div class="top-btn"><button id= "uploadDbBtn" title="Upload database to backup your data" >Upload file</button></div>
