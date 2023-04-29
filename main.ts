@@ -66,7 +66,7 @@ let aiCharDescription = "";
 let aiCharQuote = "";
 let aiStaticPrompt = "";
 let generatedAudioUrl = "";
-let generatedAudio : HTMLAudioElement;
+let generatedAudio: HTMLAudioElement | null = document.createElement('audio');
 let newInput; // declare the variable outside the event listener
 let newDialogueArray = [];
 let idField = Document;
@@ -689,14 +689,24 @@ dlAiVoice.addEventListener('click', async () => {
             const data = { id: id, audioName: audioName, audio: audioBlob };
             const mergedData = { ...savedData, ...data };
             await saveDataToDB(mergedData, "dialogue-store");
+            generatedAudio = null;
         }
     };
 
     xhr.send();
 });
 
-playAiVoice.addEventListener('click', () => {
-    generatedAudio.play();
+playAiVoice.addEventListener('click',async () => {
+    if (generatedAudio && generatedAudio.src){
+        generatedAudio.play();
+    }else{
+        const id = (document.getElementById("ID") as HTMLInputElement)?.value || "0";
+        let dialogueDB = await (readFromDB(id, "dialogue-store") as unknown);
+        let confirmedDialogueDB = dialogueDB as DialogueObject;
+        const audioObj = new Audio();
+        audioObj.src = URL.createObjectURL(confirmedDialogueDB.audio);
+        audioObj.play()
+    };
 });
 
 function showVoiceAiButtons() {
@@ -1393,6 +1403,14 @@ async function populateInputFields(inputID:string) {
             valueInput = savedDbValues[inputFieldName];
         };
         //^end of workaround
+        //Show Play Audio Btn if audio is saved
+        let audioField = document.getElementById("playAiVoice")!;
+        let audioDBCheck = savedDbValues as DialogueObject;
+        if (audioDBCheck.audioName != ""){
+            audioField.style.visibility = "visible";
+            audioField.style.display = "Flex";
+        };
+
         if (inputField.type === 'checkbox'){        //checkboxes need values put into "checked" not "value"
             (inputField as HTMLInputElement).checked = valueInput as boolean;        // Set the value of the element to the value in the array
         }
@@ -1476,6 +1494,7 @@ async function populateDBList(idInput:string) {
                 const inputField = inputsList[i];
                 let inputFieldName = inputField.name;
                 let valueInput;
+
                 // extremely stupid workaround to fix my mistake of writing ID in one place and id in another
                 if (inputFieldName === "ID"){
                     inputFieldName = "id";
@@ -1486,6 +1505,15 @@ async function populateDBList(idInput:string) {
                     valueInput = value[inputFieldName];
                 };
                 //^end of workaround
+
+                //Show Play Audio Btn if audio is saved
+                let audioField = document.getElementById("playAiVoice")!;
+                let audioDBCheck = value as DialogueObject;
+                if (audioDBCheck.audioName != ""){
+                    audioField.style.visibility = "visible";
+                    audioField.style.display = "Flex";
+                };
+
                 if (inputField.type === 'checkbox'){        //checkboxes need values put into "checked" not "value"
                     (inputField as HTMLInputElement).checked = valueInput as boolean;        // Set the value of the element to the value in the array
                 }
