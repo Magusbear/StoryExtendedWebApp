@@ -48,7 +48,7 @@ export async function queryAI(data:data): Promise<string> {
   let quote = data.aiCharQuote;
   let static_prompt = data.aiStaticPrompt;
 
-  const prompt = static_prompt + " { name: " + name + " } " + " { description: " + description + " } " + " { Quote (dont repeat!): " + quote + " } " + " { Your_last_answer: " + last_text + " } " + " { question: " + user_input + " } ";
+  const prompt = static_prompt + " { your name: " + name + " } " + " { a description of you: " + description + " } " + " { Emulate this tone of speech: " + quote + " } " + " { What you last said: " + last_text + " } " + "End of your description." + " { What you have to respond to: " + user_input + " } ";
 
   const parameters = {
     model: "text-davinci-003",

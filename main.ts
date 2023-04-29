@@ -41,6 +41,12 @@ const deleteDbBtn = document.getElementById("deleteDbBtn")!;
 const dbDelModal = document.querySelector('.dbDelModal') as HTMLElement;
 const yesButton = document.querySelector('#yes-button') as HTMLElement;
 const noButton = document.querySelector('#no-button') as HTMLElement;
+const OpenToId1 = document.getElementById("OpenToId1")!;
+const OpenToId2 = document.getElementById("OpenToId2")!;
+const OpenToId3 = document.getElementById("OpenToId3")!;
+const OpenToId4 = document.getElementById("OpenToId4")!;
+const dropdownBtn = document.querySelector('.dropdown-btn')!;
+
 const currentAppVersion:string =  "0.1";
 const dbVersion = 1;                // Current Database DB. Needs to be incremented when any keys in the database change
 const currentAddonVersion = 0.1;    // Current WoW Addon version
@@ -49,7 +55,7 @@ const currentAddonVersion = 0.1;    // Current WoW Addon version
 //OpenAI prompt modifiers
 const initialAiCharDescription = "An orc. Recruiter and trainer for adventurers and warriors already belonging to the Horde. Is a veteran. A bit grumpy. Not impressed by you. He will give you some tasks later on to test you.";
 const initialAiCharQuote = " ";
-const initialAiStaticPrompt = "You are a character in the world of warcraft. Write as if you were the character and use a personality fitting for that character. Never break character, never talk for someone but yourself, never write out the type of your answer, never use curly brackets. Be creative. Write around 200 characters. What follows is your name, a description about you, a quote said by you (dont repeat the quote!), what you said last (Your_last_answer) and the question the player is asking. Answer only directly to the question in curly brackets.";
+const initialAiStaticPrompt = "You roleplay as a character in the warcraft universe. The time is that of World of Warcraft Classic, no further. Never break character. Never talk for anyone but yourself. Write up to 200 characters.";
 
 //Addon settings
 let inputFolderName:string;
@@ -243,6 +249,11 @@ async function getAllFromObjectStore(ObjectStore: string): Promise<DialogueObjec
     return data;
 }
 
+//Sort the keys of the dialogue store by ID (so 10 does not come after 1)
+function sortKeys(dialogueStore: DialogueObject[]) {
+    return dialogueStore.sort((a, b) => {return Number(a.id) - Number(b.id)});
+};
+
 //retreive the stored API keys from IndexedDB on page load
 async function writeApiKeysToForms() {
     const openAiApiKeyForm = document.getElementById("openAiApiKey") as HTMLInputElement;
@@ -419,7 +430,7 @@ async function writeIntoLocalStorage(){
     else{
         await saveDataToDB(entryData, 'dialogue-store')                      //Saving merged data to DB
     };
-    populateDBList();
+    populateDBList("");
 };
 
 inputFields.forEach(inputField => {
@@ -465,7 +476,7 @@ selectElement.addEventListener('change', (event) => {
   
 newDialogueBtn.addEventListener('click', () => {
     ClearLists()
-    populateDBList()
+    populateDBList("")
 })
 
 function ClearLists(){
@@ -509,7 +520,7 @@ DeleteEntryBtn.addEventListener('click', async () => {
     try {
         await deleteFromDB(currentEntryString, "dialogue-store")
         ClearLists();
-        populateDBList();
+        populateDBList("");
     } catch (error) {
         console.log(error);
     }
@@ -655,7 +666,7 @@ async function AI_GenerateAnswer(QuestionField:number, textAIspinner:HTMLElement
         };
 
     loadSpinnerHide(textAIspinner)
-    populateDBList();
+    populateDBList("");
   })
   .catch((err:string) => {
     console.error(err);
@@ -842,6 +853,100 @@ deleteDbBtn.addEventListener('click',async (event) => {
 });
 
 //END - Hide and Show Addon Settings Inputs
+
+OpenToId1.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    const GoToID1 = document.getElementById("GoToID1")!;
+    const GoToID1Value = (GoToID1 as HTMLInputElement).value;
+    if (GoToID1Value === "" || GoToID1Value === "-1"){
+
+    }else{
+        // ClearLists()
+        // populateDBList(GoToID1Value);
+        populateInputFields(GoToID1Value);
+        populateDBList("");
+    };
+});
+
+OpenToId2.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    const GoToID2 = document.getElementById("GoToID2")!;
+    const GoToID2Value = (GoToID2 as HTMLInputElement).value;
+    if (GoToID2Value === "" || GoToID2Value === "-1"){
+
+    }else{
+        // ClearLists()
+        // populateDBList(GoToID1Value);
+        populateInputFields(GoToID2Value);
+        populateDBList("");
+    };
+});
+
+OpenToId3.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    const GoToID3 = document.getElementById("GoToID3")!;
+    const GoToID3Value = (GoToID3 as HTMLInputElement).value;
+    if (GoToID3Value === "" || GoToID3Value === "-1"){
+
+    }else{
+        // ClearLists()
+        // populateDBList(GoToID1Value);
+        populateInputFields(GoToID3Value);
+        populateDBList("");
+    };
+});
+
+OpenToId4.addEventListener('click',async (event) => {
+    event.preventDefault(); // prevent form submission and page refresh
+    const GoToID4 = document.getElementById("GoToID4")!;
+    const GoToID4Value = (GoToID4 as HTMLInputElement).value;
+    if (GoToID4Value === "" || GoToID4Value === "-1"){
+
+    }else{
+        // ClearLists()
+        // populateDBList(GoToID1Value);
+        populateInputFields(GoToID4Value);
+        populateDBList("");
+    };
+});
+
+dropdownBtn.addEventListener('mouseenter',async function() {
+    const idField = document.getElementById("ID")!;
+    let idFieldValue = (idField as HTMLInputElement).value || "";
+    if (idFieldValue != ""){
+        // Handle mouseenter event
+        let fullDialogueStore = await getAllFromObjectStore('dialogue-store');       //read all from DB
+        fullDialogueStore = sortKeys(fullDialogueStore);                            //sort the list
+        // Get the reference to the list
+        let dropdownList = document.getElementById('dropdown-content')!;
+
+        // Clear the list before populating it again
+        dropdownList.innerHTML = '';
+    for (let key in fullDialogueStore){
+            let GoToID1Nb = parseInt(fullDialogueStore[key].GoToID1);
+            let GoToID2Nb = parseInt(fullDialogueStore[key].GoToID2);
+            let GoToID3Nb = parseInt(fullDialogueStore[key].GoToID3);
+            let GoToID4Nb = parseInt(fullDialogueStore[key].GoToID4);
+            let idFieldValueNb = parseInt(idFieldValue);
+            if(GoToID1Nb === idFieldValueNb || GoToID2Nb === idFieldValueNb || GoToID3Nb === idFieldValueNb || GoToID4Nb === idFieldValueNb){
+                let listItem = document.createElement('a');                                        // Create a list(a) item for our dialogue database
+                const value = fullDialogueStore[key];                                                 // Get the value at index (key)
+                const textValue = value.Text;                                                       //Extract the value of Text
+                const shortText = textValue.substring(0, 20);                                       //shorten Text
+                const idValue = value.id;                                                           //Extract the value of id
+                listItem.textContent = `ID: ${idValue}: "${shortText}..."`;    //Create a readable text string of id, name and text for the list item
+                dropdownList.appendChild(listItem);
+                // Color the currently selected dialogue list item
+                //Add an event listener for every list item so that they are clickable
+                listItem.addEventListener('click', async () => {
+                    populateInputFields(idValue);
+                    populateDBList("");
+                });
+            }
+        };
+    };
+  });
+
 
 async function saveOpenAiSettings() {
     const npcName = (document.getElementById("Name") as HTMLInputElement).value || "";
@@ -1248,14 +1353,71 @@ toggleTextGenSettings.addEventListener('click', async () => {
 
 document.addEventListener("DOMContentLoaded", function() {
     ClearLists()
-    populateDBList()
+    populateDBList("")
 });
 
-function sortKeys(dialogueStore: DialogueObject[]) {
-    return dialogueStore.sort((a, b) => {return Number(a.id) - Number(b.id)});
+
+async function populateInputFields(inputID:string) {
+    ClearLists()        
+    let savedDbValues = await readFromDB(inputID, "dialogue-store")
+
+    //Input field list for every dialogue relevant item -- filtered out everything else
+    let inputsList: (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)[] = [
+        ...document.getElementsByTagName('input'),
+        ...document.getElementsByTagName('textarea'),
+        ...document.getElementsByTagName('select')
+      ]
+      .filter(element => element.id !== "openAiApiKey")
+      .filter(element => element.id !== "elevenLabsApiKey")
+      .filter(element => element.id !== "AIGenerate1")
+      .filter(element => element.id !== "AIGenerate2")
+      .filter(element => element.id !== "AIGenerate3")
+      .filter(element => element.id !== "AIGenerate4")
+      .filter(element => element.id !== "aiCharDescription")
+      .filter(element => element.id !== "aiCharQuote")
+      .filter(element => element.id !== "aiStaticPrompt")
+      .filter(element => element.type !== "file");
+    
+    //Go over every input field list item and input stored values
+    for (let i = 0; i < inputsList.length; i++) {
+        const inputField = inputsList[i];
+        let inputFieldName = inputField.name;
+        let valueInput;
+        // extremely stupid workaround to fix my mistake of writing ID in one place and id in another
+        if (inputFieldName === "ID"){
+            inputFieldName = "id";
+            valueInput = savedDbValues[inputFieldName];
+            inputFieldName === "id"
+        }
+        else{
+            valueInput = savedDbValues[inputFieldName];
+        };
+        //^end of workaround
+        if (inputField.type === 'checkbox'){        //checkboxes need values put into "checked" not "value"
+            (inputField as HTMLInputElement).checked = valueInput as boolean;        // Set the value of the element to the value in the array
+        }
+        else if (inputField.type === 'number' && valueInput != ""){
+            (inputField as HTMLInputElement).valueAsNumber = valueInput as number; 
+        }
+        else {
+            if (inputField instanceof HTMLInputElement){
+                inputField.value = valueInput as string;          // Set the value of the element to the value in the array
+            }
+            else if(inputField instanceof HTMLTextAreaElement){
+                inputField.value = valueInput as string;
+            }
+            else if(inputField instanceof HTMLSelectElement){
+                inputField.value = valueInput as string;
+            };
+        }
+
+    }
+
+    await initializeOpenAiSettings()
+    await initializeAddonSettings()
 };
 
-async function populateDBList() {  
+async function populateDBList(idInput:string) {  
     let fullDialogueStore = await getAllFromObjectStore('dialogue-store');       //read all from DB
     fullDialogueStore = sortKeys(fullDialogueStore);                            //sort the list
     // Get the reference to the list
@@ -1275,9 +1437,15 @@ async function populateDBList() {
         listItem.textContent = `Dialogue: ${idValue} | Name: ${nameValue} | Text: ${textValue}`;    //Create a readable text string of id, name and text for the list item
         localStorageList.appendChild(listItem);
         // Color the currently selected dialogue list item
-        if(value.id === idFieldValue){
-            listItem.style.backgroundColor = "lightgrey";
-        }
+        if (idInput === ""){
+            if(value.id === idFieldValue){
+                listItem.style.backgroundColor = "lightgrey";
+            }
+        }else{
+            if(value.id === idInput){
+                listItem.style.backgroundColor = "lightgrey";
+            }
+        };
         //Add an event listener for every list item so that they are clickable
         listItem.addEventListener('click', async () => {
             ClearLists()                                                                    //Clear all input fields
