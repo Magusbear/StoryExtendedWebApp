@@ -547,11 +547,11 @@ function convertToLuaTable(arr:DialogueObject[]) {
 async function downloadLocalStorageAsLua() {
     const randomNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     const dbDump = await getAllFromObjectStore('dialogue-store');
-    let luaTable = `SEDialogues${randomNumber} = {\n`;
+    let luaTable = `setfenv(1, StoryExtendedEnv)\nSEDialogues${randomNumber} = {\n`;
     const convertedLuaTable = convertToLuaTable(dbDump);
     luaTable += `${convertedLuaTable}`;
     luaTable += "}";
-    const mainLuaTable: string = `local addonName = "StoryExtendedData_${inputFolderName}"\nlocal function GetDialogueData()\n    return SEDialogues${randomNumber} \nend\n\nlocal StoryExtendedData${randomNumber} = {\n    GetDialogue = GetDialogueData()\n}\n\nStoryExtended:Register(addonName, StoryExtendedData${randomNumber})`;
+    const mainLuaTable: string = `setfenv(1, StoryExtendedEnv)\nlocal addonName = "StoryExtendedData_${inputFolderName}"\nlocal function GetDialogueData()\n    return SEDialogues${randomNumber} \nend\n\nlocal StoryExtendedData${randomNumber} = {\n    GetDialogue = GetDialogueData()\n}\n\nStoryExtended:Register(addonName, StoryExtendedData${randomNumber})`;
     const tocFile: string = `## Interface: 100000\n## Title: StoryExtendedData_${inputFolderName}\n## Version: ${currentAddonVersion}\n## LoadOnDemand: 1\n## Dependencies: StoryExtended\n## X-StoryExtendedData-Parent: StoryExtended\n## X-StoryExtendedData-Data-Version: ${dbVersion}\n## X-StoryExtendedData-Priority: ${inputPriority}\n## X-StoryExtendedData-WebApp-Version: ${currentAppVersion}\ndb\\dialogue.lua\nmain.lua`
 
     const tocBlob = new Blob([tocFile], {type: 'text/plain'});
