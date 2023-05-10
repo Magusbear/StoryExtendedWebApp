@@ -551,7 +551,7 @@ async function downloadLocalStorageAsLua() {
     const convertedLuaTable = convertToLuaTable(dbDump);
     luaTable += `${convertedLuaTable}`;
     luaTable += "}";
-    const mainLuaTable: string = `setfenv(1, StoryExtendedEnv)\nlocal addonName = "StoryExtendedData_${inputFolderName}"\nlocal function GetDialogueData()\n    return SEDialogues${randomNumber} \nend\n\nlocal StoryExtendedData${randomNumber} = {\n    GetDialogue = GetDialogueData()\n}\n\nStoryExtended:Register(addonName, StoryExtendedData${randomNumber})`;
+    const mainLuaTable: string = `setfenv(1, StoryExtendedEnv)\nlocal addonName = "StoryExtendedData_${inputFolderName}"\nlocal function GetDialogueData()\n    return SEDialogues${randomNumber} \nend\n\nlocal StoryExtendedData${randomNumber} = {\n    name = addonName,\n    GetDialogue = GetDialogueData(),\n    addonPriority = GetAddOnMetadata(addonName, "X-StoryExtendedData-Priority")\n}\n\nStoryExtended:Register(addonName, StoryExtendedData${randomNumber})`;
     const tocFile: string = `## Interface: 100000\n## Title: StoryExtendedData_${inputFolderName}\n## Version: ${currentAddonVersion}\n## LoadOnDemand: 1\n## Dependencies: StoryExtended\n## X-StoryExtendedData-Parent: StoryExtended\n## X-StoryExtendedData-Data-Version: ${dbVersion}\n## X-StoryExtendedData-Priority: ${inputPriority}\n## X-StoryExtendedData-WebApp-Version: ${currentAppVersion}\ndb\\dialogue.lua\nmain.lua`
 
     const tocBlob = new Blob([tocFile], {type: 'text/plain'});
