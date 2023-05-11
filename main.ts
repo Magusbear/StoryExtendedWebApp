@@ -48,7 +48,7 @@ const OpenToId4 = document.getElementById("OpenToId4")!;
 const dropdownBtn = document.querySelector('.dropdown-btn')!;
 
 const currentAppVersion:string =  "0.1";
-const dbVersion = 1;                // Current Database DB. Needs to be incremented when any keys in the database change
+let dbVersion = 1;                // Current Database DB. Needs to be incremented when any keys in the database change
 const currentAddonVersion = 0.1;    // Current WoW Addon version
 
 
@@ -696,7 +696,7 @@ dlAiVoice.addEventListener('click', async () => {
     xhr.send();
 });
 
-playAiVoice.addEventListener('click',async () => {
+playAiVoice.addEventListener('click', async () => {
     if (generatedAudio && generatedAudio.src){
         generatedAudio.play();
     }else{
@@ -831,23 +831,33 @@ function showDbDelModal() {
     dbDelModal.style.display = 'none';
   }
   
-  async function handleYesClickDbDel() {
-    // Code to delete the indexedDB
-    const dbName = 'seDatabase';
-    const deleteRequest = indexedDB.deleteDatabase(dbName);
-    deleteRequest.onsuccess = () => {
+async function handleYesClickDbDel() {
+// Code to delete the indexedDB
+const tempOpenAiKey: string = openAiApiKey
+const tempElevenAiKey: string = elevenLabsApiKey
+const dbName = 'seDatabase';
+const deleteRequest = indexedDB.deleteDatabase(dbName);
+deleteRequest.onsuccess = async () => {
     console.log(`Deleted ${dbName} database`);
+    await initializeDatabase()
+    const elevenLabsAiKeydata = { name: "elevenLabsApiKey", value: tempElevenAiKey };
+    await saveDataToDB(elevenLabsAiKeydata, 'api-key-store');
+    const openAiKeydata = { name: "openAiApiKey", value: tempOpenAiKey };
+    await saveDataToDB(openAiKeydata, 'api-key-store');
+    if (openAiApiKey != "none") {
+        setUpOpenAi(openAiApiKey);
+    };
     location.reload();
-    };
-    deleteRequest.onerror = () => {
+};
+deleteRequest.onerror = () => {
     console.error(`Error deleting ${dbName} database`);
-    };
-    hideDbDelModal();
-  }
+};
+hideDbDelModal();
+};
   
-  function handleNoClickDbDel() {
+function handleNoClickDbDel() {
     hideDbDelModal();
-  }
+};
 
 
 deleteDbBtn.addEventListener('click',async (event) => {
@@ -1144,6 +1154,8 @@ downloadDbBtn.addEventListener('click', async (event) => {
 
         // Call the exportObjectStore function
         exportObjectStore(db, 'dialogue-store');
+        exportObjectStore(db, 'api-key-store');
+        exportObjectStore(db, 'web-app-store');
         };
 
         let exportObjectStore = (database: IDBDatabase , storeName: string) => {
@@ -1172,56 +1184,87 @@ downloadDbBtn.addEventListener('click', async (event) => {
 async function importObjectStore(database: IDBDatabase, storeName: string, file: File): Promise<void> {
     let reader = new FileReader();
     reader.readAsText(file);
+    console.log(file.name)
     reader.onerror = () => {
         console.warn("Error reading file.");
       };    
     reader.onload = async () => {
         if (reader.result !== null) {
-            let savedDb = await getAllFromObjectStore("dialogue-store");
-            console.log(savedDb);
-            let data = JSON.parse(reader.result as string);
-            let importTransaction = database.transaction(storeName, 'readwrite');
-            let objectStore = importTransaction.objectStore(storeName);
-            let lastID = 0;
-            if (savedDb.length >= 1){
-                let sortedData:DialogueObject[] = sortKeys(savedDb);
-                console.log(sortedData);
-                let lastIndex: number = sortedData.length - 1;
-                let lastIDString: string = sortedData[lastIndex].id;
-                lastID = Number(lastIDString);
-            };
-            data.forEach((item:DialogueObject) => {
-                //want to shorten this when I find the time
-                if(lastID > 0){
-                    let newId: number = lastID + Number(item.id);
-                    let newIdString:string = newId.toString();
-                    item.id = newIdString;
-                    if (item.GoToID1 != "" && item.GoToID1 != "-1"){
-                        let newGoToId1: number = lastID + Number(item.GoToID1);
-                        let newGoToId1String:string = newGoToId1.toString();
-                        item.GoToID1 = newGoToId1String;
-                    };
-                    if (item.GoToID2 != "" && item.GoToID2 != "-1"){
-                        let newGoToId2: number = lastID + Number(item.GoToID2);
-                        let newGoToId2String:string = newGoToId2.toString();
-                        item.GoToID2 = newGoToId2String;
-                    };
-                    if (item.GoToID3 != "" && item.GoToID3 != "-1"){
-                        let newGoToId3: number = lastID + Number(item.GoToID3);
-                        let newGoToId3String:string = newGoToId3.toString();
-                        item.GoToID3 = newGoToId3String;
-                    };
-                    if (item.GoToID4 != "" && item.GoToID4 != "-1"){
-                        let newGoToId4: number = lastID + Number(item.GoToID4);
-                        let newGoToId4String:string = newGoToId4.toString();
-                        item.GoToID4 = newGoToId4String;
-                    };
+            if ((file.name).includes("dialogue-store")) {
+                let savedDb = await getAllFromObjectStore("dialogue-store");
+                console.log(savedDb);
+                let data = JSON.parse(reader.result as string);
+                let importTransaction = database.transaction(storeName, 'readwrite');
+                let objectStore = importTransaction.objectStore(storeName);
+                let lastID = 0;
+                if (savedDb.length >= 1){
+                    let sortedData:DialogueObject[] = sortKeys(savedDb);
+                    console.log(sortedData);
+                    let lastIndex: number = sortedData.length - 1;
+                    let lastIDString: string = sortedData[lastIndex].id;
+                    lastID = Number(lastIDString);
                 };
-                // want to shorten this when I find the time ^^^^
-                objectStore.add(item);
-            });        
-            importTransaction.oncomplete = () => {
-                alert('Data imported successfully');
+                data.forEach((item:DialogueObject) => {
+                    //want to shorten this when I find the time
+                    if(lastID > 0){
+                        let newId: number = lastID + Number(item.id);
+                        let newIdString:string = newId.toString();
+                        item.id = newIdString;
+                        if (item.GoToID1 != "" && item.GoToID1 != "-1"){
+                            let newGoToId1: number = lastID + Number(item.GoToID1);
+                            let newGoToId1String:string = newGoToId1.toString();
+                            item.GoToID1 = newGoToId1String;
+                        };
+                        if (item.GoToID2 != "" && item.GoToID2 != "-1"){
+                            let newGoToId2: number = lastID + Number(item.GoToID2);
+                            let newGoToId2String:string = newGoToId2.toString();
+                            item.GoToID2 = newGoToId2String;
+                        };
+                        if (item.GoToID3 != "" && item.GoToID3 != "-1"){
+                            let newGoToId3: number = lastID + Number(item.GoToID3);
+                            let newGoToId3String:string = newGoToId3.toString();
+                            item.GoToID3 = newGoToId3String;
+                        };
+                        if (item.GoToID4 != "" && item.GoToID4 != "-1"){
+                            let newGoToId4: number = lastID + Number(item.GoToID4);
+                            let newGoToId4String:string = newGoToId4.toString();
+                            item.GoToID4 = newGoToId4String;
+                        };
+                    };
+                    // want to shorten this when I find the time ^^^^
+                    objectStore.add(item);
+                });
+                
+                importTransaction.oncomplete = () => {
+                    alert('Data imported successfully');
+                };
+            } else if((file.name).includes("api-key-store")) {
+                let savedDb = await getAllFromObjectStore("api-key-store");
+                console.log(savedDb);
+                let data = JSON.parse(reader.result as string);
+                let importTransaction = database.transaction(storeName, 'readwrite');
+                let objectStore = importTransaction.objectStore(storeName);
+                data.forEach((item:apiKeyObject) => {
+                    objectStore.put(item);
+                });
+                importTransaction.oncomplete = () => {
+                    alert('Data imported successfully');
+                };
+            } else if((file.name).includes("web-app-store")) {
+                let savedDb = await getAllFromObjectStore("web-app-store");
+                console.log(savedDb);
+                let data = JSON.parse(reader.result as string);
+                let importTransaction = database.transaction(storeName, 'readwrite');
+                let objectStore = importTransaction.objectStore(storeName);
+                data = data.filter((item: webAppObject) => {
+                    return item.id !== "addonSettings" && item.id !== "openAiStaticSettings";
+                  });
+                data.forEach((item:webAppObject) => {
+                    objectStore.put(item);
+                });
+                importTransaction.oncomplete = () => {
+                    alert('Data imported successfully');
+                };
             };
         } else {
             console.warn("Cant read file.")
@@ -1242,7 +1285,13 @@ uploadDbBtn.addEventListener('click', async (event) => {
         let importFileInput = document.getElementById('importFileInput')!;
         if (event.target && (importFileInput as HTMLInputElement).files){
             let file = (importFileInput as HTMLInputElement).files![0];
-            importObjectStore(db, "dialogue-store", file);
+            if ((file.name).includes("dialogue-store")) {
+                importObjectStore(db, "dialogue-store", file);
+            }else if((file.name).includes("web-app-store")) {
+                importObjectStore(db, "web-app-store", file);
+            }else if((file.name).includes("api-key-store")) {
+                importObjectStore(db, "api-key-store", file);
+            };
         }
         else{
             alert("Please choose a valid database .json file.")
@@ -1361,9 +1410,25 @@ toggleTextGenSettings.addEventListener('click', async () => {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    ClearLists()
-    populateDBList("")
+function doesObjectStoreExist(dbName: string, objectStoreName:string) {
+return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName);
+    request.onerror = () => reject(Error("Failed to open database"));
+    request.onsuccess = () => {
+    const db = request.result;
+    const objectStoreNames = db.objectStoreNames;
+    const exists = objectStoreNames.contains(objectStoreName);
+    db.close();
+    resolve(exists);
+    };
+});
+};
+
+document.addEventListener("DOMContentLoaded", async function() {
+    if (await doesObjectStoreExist("seDatabase", "web-app-store")){
+        ClearLists()
+        populateDBList("")
+    };
 });
 
 
@@ -1436,6 +1501,7 @@ async function populateInputFields(inputID:string) {
 };
 
 async function populateDBList(idInput:string) {  
+    console.log("PopulateList")
     let fullDialogueStore = await getAllFromObjectStore('dialogue-store');       //read all from DB
     fullDialogueStore = sortKeys(fullDialogueStore);                            //sort the list
     // Get the reference to the list
