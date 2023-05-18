@@ -1,24 +1,31 @@
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
 :root {
     --grey-color: #414141;
     font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
-.nav-list{
-    display:flex;
-    gap: 2rem;
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-    align-items: center;
-    margin-bottom: 5rem;
+body{
+    background-color: #150d0a;
+    background-image: url(/images/horde_leather_bg.jpg);
+    color: #f7b10a;
+    font-family: Open Sans,Arial,Helvetica,sans-serif;
+    /* text-transform: uppercase; */
+    text-shadow: 0 2px 0 #000,1px 0 5px #000,0 1px 5px #000,-1px 0 5px #000,0 -1px 5px #000;
 }
 
-.nav-list li{
-    font-size: 20px;
-    flex-direction: 100%;
-    /* justify-content: space-between; */
-    flex-shrink: 1;
-    flex-grow: 1;
+inputs{
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: 2rem;
+    width: 80%;
 }
 
 .heading {
@@ -26,6 +33,259 @@
     margin-bottom: 5rem;
     padding: .5rem;
 }
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    font-size: 18px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: 1rem;
+    width: 100%;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.input-ctn{
+    background-color: #222222;
+    background-image: url(/images/Box-leather-grey.jpg);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    /* border: 10px solid firebrick; */
+    flex-grow: 1;
+    padding: 2rem;
+    border-radius: .5rem;
+    margin: .2rem;
+    border: 1px solid rgb(209,213,219);
+    border-radius: .5rem;
+    box-sizing: border-box;
+}
+
+.input-column-ctn {
+    /* border: 10px solid firebrick; */
+    flex-direction: column;
+    display:flex;
+    padding: 1rem;
+    width: min(200px);
+    justify-items: stretch;
+}
+
+
+button:hover {
+  background-color: rgb(249,250,251);
+}
+
+button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  box-shadow: none;
+}
+
+.IronButton {
+    font-size: 1.08rem;
+    line-height: 1.5;
+    font-family: Open Sans,Arial,Helvetica,sans-serif;
+    color: #fff;
+    text-shadow: 0 0 1px transparent,0 1px 2px rgba(0,0,0,.8);
+    font-weight: 400;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 7px 8px;
+    border-radius: 18px;
+    background: #141414;
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#141414),color-stop(30%,#161616),color-stop(50%,#1e1e1e),color-stop(65%,#262626),color-stop(80%,#292929));
+    background: linear-gradient(0deg,#141414 20%,#161616 30%,#1e1e1e 50%,#262626 65%,#292929 80%);
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    -webkit-box-shadow: 0 4px 10px 2px rgba(0,0,0,.75);
+    box-shadow: 0 4px 10px 2px rgba(0,0,0,.75)
+}
+
+.IronButton.zh-cn,.zh-cn .IronButton {
+    font-family: Arial,Helvetica,å¾®è½¯é›…é»‘,Microsoft YaHei,Hei SC,sans-serif
+}
+
+.IronButton.ko-kr,.ko-kr .IronButton {
+    font-family: Arial,Helvetica,ë§‘ì€ ê³ ë”•,Malgun Gothic,ì• í”Œì‚°ëŒê³ ë”•ë„¤ì˜¤,AppleSDGothicNeo,ì• í”Œê³ ë”•,AppleGothic,ë‹ì›€,Dotum,sans-serif
+}
+
+.IronButton.ru-ru,.ru-ru .IronButton {
+    font-family: Open Sans,Arial,Helvetica,sans-serif
+}
+
+.IronButton.zh-tw,.zh-tw .IronButton {
+    font-family: Arial,Helvetica,é»‘é«”-ç¹,Heiti TC,å¾®è»Ÿæ­£é»‘,Microsoft JhengHei,Tei TC,sans-serif
+}
+
+.IronButton:after,.IronButton:before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block
+}
+
+.IronButton:before {
+    background: #1a1a1a;
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#1a1a1a),color-stop(30%,#1c1c1c),color-stop(50%,#242424),color-stop(65%,#2c2c2c),color-stop(80%,#2f2f2f));
+    background: linear-gradient(0deg,#1a1a1a 20%,#1c1c1c 30%,#242424 50%,#2c2c2c 65%,#2f2f2f 80%);
+    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    opacity: 0
+}
+
+.IronButton.IronButton--primary {
+    background: #4e0000;
+    background: transparent -webkit-gradient(linear,left bottom,left top,color-stop(20%,#4e0000),color-stop(30%,#500),color-stop(50%,#700000),color-stop(65%,#8d0000),color-stop(80%,#860000)) 50% repeat;
+    background: transparent linear-gradient(0deg,#4e0000 20%,#500 30%,#700000 50%,#8d0000 65%,#860000 80%) 50% repeat
+}
+
+.IronButton.IronButton--primary:before {
+    background: #600000;
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#600000),color-stop(30%,#680000),color-stop(50%,#8f0000),color-stop(65%,#b40000),color-stop(80%,#ae0000));
+    background: linear-gradient(0deg,#600000 20%,#680000 30%,#8f0000 50%,#b40000 65%,#ae0000 80%)
+}
+
+.IronButton:after {
+    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    border-image-outset: 7px 8px 7px 8px;
+    border-image-width: 16px;
+    border-image-slice: 16 fill;
+    border-image-source: url(/images/metal_frame.png);
+    border-image-repeat: round
+}
+
+.IronButton-inner {
+    position: relative;
+    padding: 12px 18px 14px
+}
+
+@media (min-width: 980px) {
+    .IronButton-inner {
+        padding:16px 22px 18px
+    }
+}
+@media (min-width: 720px) {
+    .IronButton {
+        font-size:.8rem
+    }
+}
+
+@media (min-width: 1280px) {
+    .IronButton {
+        font-size:1rem
+    }
+}
+
+.IronButton-inner:after,.IronButton-inner:before {
+    content: "";
+    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block
+}
+
+.IronButton-inner:before {
+    border-image-width: 11px 13px;
+    border-image-slice: 11 13 fill;
+    border-image-repeat: round;
+    border-image-outset: 0;
+    border-image-source: url(/images/ui_button_black_border.png)
+}
+
+.IronButton-inner:after {
+    background: transparent url(/images/ui_button_black_texture.png) 0 0 repeat;
+    background-size: 200px
+}
+
+.IronButton--primary .IronButton-inner:before {
+    border-image-width: 11px 13px;
+    border-image-slice: 11 13 fill;
+    border-image-repeat: round;
+    border-image-outset: 0;
+    border-image-source: url(/images/ui_button_red_border.png)
+}
+
+.IronButton--primary .IronButton-inner:after {
+    background: transparent url(/images/ui_button_red_texture.png) 0 0 repeat;
+    background-size: 200px
+}
+
+.IronButton-label {
+    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+    color: #f7b10a;
+    text-transform: uppercase;
+    text-shadow: 0 2px 0 #000,1px 0 5px #000,0 1px 5px #000,-1px 0 5px #000,0 -1px 5px #000;
+    position: relative;
+    top: 0;
+    z-index: 1;
+    line-height: 1;
+    white-space: nowrap
+}
+
+html:not(.touch) .IronButton:hover {
+    background-color: #ae0000
+}
+
+html:not(.touch) .IronButton:hover:before {
+    opacity: 1
+}
+
+html:not(.touch) .IronButton:hover:after {
+    -webkit-filter: brightness(1.1);
+    filter: brightness(1.1)
+}
+
+html:not(.touch) .IronButton:hover .IronButton-inner:before {
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2)
+}
+
+html:not(.touch) .IronButton:hover .IronButton-label {
+    color: #fff
+}
+
+html:not(.touch) .IronButton:active:before {
+    -webkit-transition: all .1s cubic-bezier(.23,1,.32,1) 0s;
+    transition: all .1s cubic-bezier(.23,1,.32,1) 0s;
+    opacity: .3
+}
+
+@media (min-width: 980px) {
+    html:not(.touch) .IronButton:active .IronButton-label {
+        top:1px
+    }
+}
+
 /* Database delete modal code begin*/
 .dbDelModal {
     position: fixed;
@@ -53,27 +313,32 @@
     margin-top: 20px;
   }
   
+  .nav-list{
+    display:flex;
+    gap: 2rem;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+.nav-list li{
+    font-size: 20px;
+    flex-direction: 100%;
+    /* justify-content: space-between; */
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
   /* Database delete modal code end*/
 
-
-
-.wrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin-left: 5rem;
-    margin-right: 5rem;
-}
 .APIKeys{
     display: none;
     visibility: hidden;
     display:flex;
     flex-direction: row;
-    justify-content: flex-end; 
+    justify-content: center; 
     margin-top: 0px;
     max-height: 200px;
 }
@@ -88,7 +353,7 @@
     visibility: hidden;
     display:flex;
     flex-direction: row;
-    justify-content: flex-end; 
+    justify-content: center; 
     margin-top: 0px;
     max-height: 200px;
 }
@@ -97,40 +362,6 @@
     flex-direction: row;
     margin-bottom: 20px; 
 }
-
-
-.outer-left{
-    align-self: flex-start;
-    flex-direction: row;
-    /* justify-content: space-between; */
-    /* border: 10px solid firebrick; */
-    flex-grow: 1;
-}
-.outer-right {
-    align-self: flex-start; 
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    /* border: 10px solid firebrick; */
-    flex-grow: 1;
-}
-
-.FirstLevel {
-    /* border: 10px solid firebrick; */
-    flex-direction: row;
-}
-.SecondLevel {
-    display:flex;
-
-    /* border: 10px solid firebrick; */
-}
-.ThirdLevel {
-    /* border: 10px solid firebrick; */
-}
-.FourthLevel {
-    /* border: 10px solid firebrick; */
-}
-
 
 .db-wrapper{
     display: flex;
@@ -143,18 +374,18 @@
 }
 
 .UtilityBtns {
-    margin-left: 100px;
+    /* margin-left: 100px; */
     display: flex;
     justify-content: space-between;
 }
 
-#importFileInput{
+/* #importFileInput{
     align-self: flex-end;
 }
 
 #uploadDbBtn{
     align-self: flex-end;
-}
+} */
 
 
 button#playAiVoice{
@@ -237,13 +468,6 @@ button#dlAiVoice{
     padding: 1rem;
 }
 
-.top-btn {
-
-    padding: .5rem;
-    flex-shrink: 1;
-    align-self: center;
-}
-
 
 #AiVoiceList li:hover {
     outline: 2px solid transparent;
@@ -257,39 +481,6 @@ button#dlAiVoice{
     padding: .5rem;
 }
 
-button{
-    background-color: #FFFFFF;
-    border: 1px solid rgb(209,213,219);
-    border-radius: .5rem;
-    box-sizing: border-box;
-    color: #111827;
-    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    font-size: .875rem;
-    font-weight: 600;
-    line-height: 1.25rem;
-    padding: .75rem 1rem;
-    text-align: center;
-    text-decoration: none #D1D5DB solid;
-    text-decoration-thickness: auto;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
-button:hover {
-  background-color: rgb(249,250,251);
-}
-
-button:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-button:focus-visible {
-  box-shadow: none;
-}
 
 button.top-btn-small {
     font-size: .5 rem;
@@ -300,7 +491,7 @@ button.top-btn-small {
 }
 
 /* Style the dropdown button */
-.dropdown-btn {
+/* .dropdown-btn {
     background-color: #FFFFFF;
     border: 1px solid rgb(209,213,219);
     border-radius: .5rem;
@@ -319,7 +510,7 @@ button.top-btn-small {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-  }
+  } */
   
   /* Style the dropdown content */
   .dropdown-content {
@@ -437,10 +628,10 @@ input[type="button"]:focus {
 input[type="button"]:focus-visible {
     box-shadow: none;
 }
-  
+
 /* The List of database(Browser localStorage) entries */
 #localStorageList {
-    background-color: white;
+    background-image: url(/images/Box-leather-grey.jpg);
     list-style: none;
     padding: 0px;
     margin-top: 50px;
@@ -557,6 +748,7 @@ input[type="button"]:focus-visible {
   /*END Spinning Loader from https://loading.io/css */
 
 
+/* responsive changes */
 @media screen and (max-width: 1300px){
     .wrapper {
         flex-direction: column;
