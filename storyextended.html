@@ -29,16 +29,16 @@
             <div class="heading">
                 <h1>World Of Warcraft: Story Extended - Dialogue Creator</h1>
                 <p>For the StoryExtended Addon for World Of Warcraft. Any changes are automatically saved in your browsers local storage. Nothing is saved on the server, so if you clear your browsers
-                    cache regularly be sure to frequently download your database.
+                    cache regularly be sure to frequently download your database. If you don't know what a field does just hover over it, every one has a detailed tooltip.
                 </p>
             </div>
             <div class="UtilityBtns">
                 <!-- <div class="top-btn"><button id="save-all-btn" title="Saves everything again (Usually not needed as the page auto saves)">Save All</button></div> -->
                 <div class="top-btn"><button id= "downloadJsonBtn" title="Download database as Lua for use in the Addon" >Download DataAddon</button></div>
                 <div class="top-btn"><button id= "changeAddonSettings" title="Change general addon settings">Addon Settings</button></div><br><br>
-                <div class="top-btn"><button id= "toggleuploadDbBtn" title="Upload database to backup your data" >Upload database</button></div>
+                <div class="top-btn"><button id= "toggleuploadDbBtn" title="Upload database to recover your data" >Upload database</button></div>
                 <div class="top-btn"><button id= "downloadDbBtn" title="Download database to backup your data" >Download database</button></div>
-                <div class="top-btn"><button id= "deleteDbBtn" title="Delete database" >Delete database</button></div>
+                <div class="top-btn"><button id= "deleteDbBtn" title="Deletes database to start fresh. API keys are not deleted; for convenience sake!" >Delete database</button></div>
                 <div class="top-btn"><button id= "changeApiKeys" title="Change the API Keys">Change API keys</button></div><br><br>
             </div>
         </div>
@@ -126,13 +126,13 @@
                     <form action="/database.php">
                         <label for="Greeting" title="Check if this should be starting a dialogue tree. If you start a conversation with an NPC (or trigger a conversation through an event ingame) the Addon looks for the first dialogue 'greeting' which condition can be met and hasn't been seen before. So if you never activate 'greeting' on any of your written dialogue lines they can never be seen ingame.">Greeting:</label><br>
                         <input type="checkbox" id="Greeting" name="Greeting" checked="false" title="Check if this should be starting a dialogue tree. If you start a conversation with an NPC (or trigger a conversation through an event ingame) the Addon looks for the first dialogue 'greeting' which condition can be met and hasn't been seen before. So if you never activate 'greeting' on any of your written dialogue lines they can never be seen ingame."><br><br>
-                        <label for="UseAudio" title="Only check if you are providing an audio file for the dialogue line. These must go into the Addon folder under '/Audio/{name}.{ID}.mp3' whereas {name} means the name of the NPC/event as written in the Name field and {ID} is the ID of the dialogue as written in the ID field">Use Audio:</label><br>
-                        <input type="checkbox" id="UseAudio" name="UseAudio" title="Only check if you are providing an audio file for the dialogue line. These must go into the Addon folder under '/Audio/{name}.{ID}.mp3' whereas {name} means the name of the NPC/event as written in the Name field and {ID} is the ID of the dialogue as written in the ID field">
+                        <label for="UseAudio" title="Only check if you have generated audio for this dialogue line.">Use Audio:</label><br>
+                        <input type="checkbox" id="UseAudio" name="UseAudio" title="Only check if you have generated audio for this dialogue line.">
                     </form>
                 </div>
                 <div class="FourthLevel">
                     <label for="Text">Enter Text:</label><br>
-                    <textarea id="Text" name="Text" rows="4" cols="50" title="The NPC dialogue lines. It's best to keep these under 200 characters long"></textarea>
+                    <textarea id="Text" name="Text" rows="4" cols="50" title="The NPC dialogue lines. It's best to keep these under 200 characters long&#10;If you want to input player info you can use:&#10;'%1$s' = inserts players name.&#10;'%2$s' = inserts players class noun&#10;'%3$s' = inserts players race noun&#10;&#10;Remember to put in audio placeholders when generating audio for the text"></textarea>
                 </div>
             </div>
             <div class="outer-right">
