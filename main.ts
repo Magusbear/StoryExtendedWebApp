@@ -1052,7 +1052,7 @@ async function queryAiVoiceList() {
                         voiceListItem.addEventListener('click', async () => {
                             let savedData = await readFromDB(npcName, "web-app-store");
                             Array.from(localStorageList.children).forEach((item: Element) => {
-                                (item as HTMLUListElement).style.backgroundColor = "white";
+                                (item as HTMLUListElement).style.backgroundColor = "transparent";
                             });
                             if(npcName && savedData){
                                 voiceListItem.style.backgroundColor = "lightgrey";
@@ -1533,8 +1533,9 @@ async function populateDBList(idInput:string) {
         //Add an event listener for every list item so that they are clickable
         listItem.addEventListener('click', async () => {
             ClearLists()                                                                    //Clear all input fields
-            Array.from(localStorageList.children).forEach((item) => {                       //Remove color from every list item
-                (item as HTMLElement).style.backgroundColor = "white";                                       //
+            Array.from(localStorageList.children).forEach((item) => { 
+                //Remove color from every list item
+                (item as HTMLElement).style.backgroundColor = "transparent";                                       //
             });                                                                             //
             listItem.style.backgroundColor = "lightgrey";                                   //Color in selected/clicked item
 
