@@ -12,7 +12,7 @@
 body{
     display:flex;
     background-color: #150d0a;
-    background-image: url(/images/horde_leather_bg.jpg);
+    background-image: url(/assets/img/horde_leather_bg.jpg);
     color: #f7b10a;
     font-family: Open Sans,Arial,Helvetica,sans-serif;
     /* text-transform: uppercase; */
@@ -53,7 +53,7 @@ body{
 
 .input-ctn{
     background-color: #222222;
-    background-image: url(/images/Box-leather-grey.jpg);
+    background-image: url(/assets/img/Box-leather-grey.jpg);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -148,7 +148,7 @@ body{
     border-image-outset: 7px 8px 7px 8px;
     border-image-width: 16px;
     border-image-slice: 16 fill;
-    border-image-source: url(/images/metal_frame.png);
+    border-image-source: url(/assets/img/metal_frame.png);
     border-image-repeat: round
 }
 
@@ -175,11 +175,11 @@ body{
     border-image-slice: 11 13 fill;
     border-image-repeat: round;
     border-image-outset: 0;
-    border-image-source: url(/images/ui_button_black_border.png)
+    border-image-source: url(/assets/img/ui_button_black_border.png)
 }
 
 .IronButton-inner:after {
-    background: transparent url(/images/ui_button_black_texture.png) 0 0 repeat;
+    background: transparent url(/assets/img/ui_button_black_texture.png) 0 0 repeat;
     background-size: 200px
 }
 
@@ -188,11 +188,11 @@ body{
     border-image-slice: 11 13 fill;
     border-image-repeat: round;
     border-image-outset: 0;
-    border-image-source: url(/images/ui_button_red_border.png)
+    border-image-source: url(/assets/img/ui_button_red_border.png)
 }
 
 .IronButton--primary .IronButton-inner:after {
-    background: transparent url(/images/ui_button_red_texture.png) 0 0 repeat;
+    background: transparent url(/assets/img/ui_button_red_texture.png) 0 0 repeat;
     background-size: 200px
 }
 
@@ -280,7 +280,7 @@ html:not(.touch) .IronButton:active:before {
     width: 80%;
     text-align: center;
     background-color: #222222;
-    background-image: url(/images/Box-leather-grey.jpg);
+    background-image: url(/assets/img/Box-leather-grey.jpg);
     border: 1px solid rgb(209,213,219);
     border-radius: .5rem;
     box-sizing: border-box;
@@ -354,7 +354,7 @@ html:not(.touch) .IronButton:active:before {
 /* .AiStorageList{
     display:none;
     background-color: #222222;
-    background-image: url(/images/Box-leather-grey.jpg);
+    background-image: url(/assets/img/Box-leather-grey.jpg);
     border: 1px solid rgb(209,213,219);
     border-radius: .5rem;
     box-sizing: border-box;
@@ -609,7 +609,7 @@ input[type=checkbox]:before {
 
 /* The List of database(IndexedDB) entries */
 #localStorageList {
-    background-image: url(/images/Box-leather-grey.jpg);
+    background-image: url(/assets/img/Box-leather-grey.jpg);
     list-style: none;
     padding: 0px;
     margin-top: 50px;

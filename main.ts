@@ -874,12 +874,45 @@ deleteDbBtn.addEventListener('click',async (event) => {
 
 //END - Hide and Show Addon Settings Inputs
 
+async function changeJumpToIDBtn (buttonName:string, SetToJump:boolean){
+    const btnNumber: number = Number(buttonName.charAt(buttonName.length - 1));
+    const btnNameList: { [key: number]: string} = {1: "#OpenToId1", 2: "#OpenToId2", 3: "#OpenToId3", 4: "#OpenToId4"};
+    const btnName = btnNameList[btnNumber];
+    const label = document.querySelector(`${btnName} .IronButton-label`);
+    if (label) {
+        if (SetToJump == true){
+            label.textContent = "Jump To ID";
+        }else{
+            label.textContent = "Create ID";
+        };
+    };
+};
+
 OpenToId1.addEventListener('click',async (event) => {
     event.preventDefault(); // prevent form submission and page refresh
-    const GoToID1 = document.getElementById("GoToID1")!;
-    const GoToID1Value = (GoToID1 as HTMLInputElement).value;
+    const GoToID1 = document.getElementById("GoToID1")! as HTMLInputElement;
+    let GoToID1Value = GoToID1.value;
     if (GoToID1Value === "" || GoToID1Value === "-1"){
-
+        const currentNameField = document.getElementById("Name") as HTMLInputElement;
+        if (currentNameField.value) {
+            const currentName = currentNameField.value;
+            let allObjects = await getAllFromObjectStore('dialogue-store');
+            allObjects = sortKeys(allObjects);
+            const lastIndex = allObjects.length - 1
+            const lastIdString = allObjects[lastIndex].id;
+            const lastId = parseInt(lastIdString);
+            const nextID = lastId + 1;
+            const nextIdString = nextID.toString();
+            GoToID1.valueAsNumber = nextID;
+            const currentIdElement = document.getElementById('ID') as HTMLInputElement;
+            writeIntoLocalStorage()
+            ClearLists()
+            populateDBList("")
+            currentNameField.value = currentName;
+            currentIdElement.value = nextIdString;
+            writeIntoLocalStorage()
+            changeJumpToIDBtn("GoToID1", false)
+        }
     }else{
         // ClearLists()
         // populateDBList(GoToID1Value);
@@ -890,10 +923,29 @@ OpenToId1.addEventListener('click',async (event) => {
 
 OpenToId2.addEventListener('click',async (event) => {
     event.preventDefault(); // prevent form submission and page refresh
-    const GoToID2 = document.getElementById("GoToID2")!;
-    const GoToID2Value = (GoToID2 as HTMLInputElement).value;
+    const GoToID2 = document.getElementById("GoToID2")! as HTMLInputElement;
+    const GoToID2Value = GoToID2.value;
     if (GoToID2Value === "" || GoToID2Value === "-1"){
-
+        const currentNameField = document.getElementById("Name") as HTMLInputElement;
+        if (currentNameField.value) {
+            const currentName = currentNameField.value;
+            let allObjects = await getAllFromObjectStore('dialogue-store');
+            allObjects = sortKeys(allObjects);
+            const lastIndex = allObjects.length - 1
+            const lastIdString = allObjects[lastIndex].id;
+            const lastId = parseInt(lastIdString);
+            const nextID = lastId + 1;
+            const nextIdString = nextID.toString();
+            GoToID2.valueAsNumber = nextID;
+            const currentIdElement = document.getElementById('ID') as HTMLInputElement;
+            writeIntoLocalStorage()
+            ClearLists()
+            populateDBList("")
+            currentNameField.value = currentName;
+            currentIdElement.value = nextIdString;
+            writeIntoLocalStorage()
+            changeJumpToIDBtn("GoToID2", false)
+        }
     }else{
         // ClearLists()
         // populateDBList(GoToID1Value);
@@ -904,10 +956,29 @@ OpenToId2.addEventListener('click',async (event) => {
 
 OpenToId3.addEventListener('click',async (event) => {
     event.preventDefault(); // prevent form submission and page refresh
-    const GoToID3 = document.getElementById("GoToID3")!;
-    const GoToID3Value = (GoToID3 as HTMLInputElement).value;
+    const GoToID3 = document.getElementById("GoToID3")! as HTMLInputElement;
+    const GoToID3Value = GoToID3.value;
     if (GoToID3Value === "" || GoToID3Value === "-1"){
-
+        const currentNameField = document.getElementById("Name") as HTMLInputElement;
+        if (currentNameField.value) {
+            const currentName = currentNameField.value;
+            let allObjects = await getAllFromObjectStore('dialogue-store');
+            allObjects = sortKeys(allObjects);
+            const lastIndex = allObjects.length - 1
+            const lastIdString = allObjects[lastIndex].id;
+            const lastId = parseInt(lastIdString);
+            const nextID = lastId + 1;
+            const nextIdString = nextID.toString();
+            GoToID3.valueAsNumber = nextID;
+            const currentIdElement = document.getElementById('ID') as HTMLInputElement;
+            writeIntoLocalStorage()
+            ClearLists()
+            populateDBList("")
+            currentNameField.value = currentName;
+            currentIdElement.value = nextIdString;
+            writeIntoLocalStorage()
+            changeJumpToIDBtn("GoToID3", false)
+        }
     }else{
         // ClearLists()
         // populateDBList(GoToID1Value);
@@ -918,10 +989,29 @@ OpenToId3.addEventListener('click',async (event) => {
 
 OpenToId4.addEventListener('click',async (event) => {
     event.preventDefault(); // prevent form submission and page refresh
-    const GoToID4 = document.getElementById("GoToID4")!;
-    const GoToID4Value = (GoToID4 as HTMLInputElement).value;
+    const GoToID4 = document.getElementById("GoToID4")! as HTMLInputElement;
+    const GoToID4Value = GoToID4.value;
     if (GoToID4Value === "" || GoToID4Value === "-1"){
-
+        const currentNameField = document.getElementById("Name") as HTMLInputElement;
+        if (currentNameField.value) {
+            const currentName = currentNameField.value;
+            let allObjects = await getAllFromObjectStore('dialogue-store');
+            allObjects = sortKeys(allObjects);
+            const lastIndex = allObjects.length - 1
+            const lastIdString = allObjects[lastIndex].id;
+            const lastId = parseInt(lastIdString);
+            const nextID = lastId + 1;
+            const nextIdString = nextID.toString();
+            GoToID4.valueAsNumber = nextID;
+            const currentIdElement = document.getElementById('ID') as HTMLInputElement;
+            writeIntoLocalStorage()
+            ClearLists()
+            populateDBList("")
+            currentNameField.value = currentName;
+            currentIdElement.value = nextIdString;
+            writeIntoLocalStorage()
+            changeJumpToIDBtn("GoToID4", false)
+        }
     }else{
         // ClearLists()
         // populateDBList(GoToID1Value);
@@ -1463,8 +1553,14 @@ async function populateInputFields(inputID:string) {
             inputFieldName = "id";
             valueInput = savedDbValues[inputFieldName];
             inputFieldName === "id"
-        }
-        else{
+        }else if (inputFieldName === "GoToID1" || inputFieldName === "GoToID2" || inputFieldName === "GoToID3" || inputFieldName === "GoToID4") {
+                if (savedDbValues[inputFieldName] != "" ) {
+                    changeJumpToIDBtn(inputFieldName, true);
+                }else{
+                    changeJumpToIDBtn(inputFieldName, false);
+                };
+                valueInput = savedDbValues[inputFieldName];
+        }else{
             valueInput = savedDbValues[inputFieldName];
         };
         //^end of workaround
@@ -1499,6 +1595,7 @@ async function populateInputFields(inputID:string) {
     await initializeOpenAiSettings()
     await initializeAddonSettings()
 };
+
 
 async function populateDBList(idInput:string) {  
     console.log("PopulateList")
@@ -1567,6 +1664,14 @@ async function populateDBList(idInput:string) {
                     inputFieldName = "id";
                     valueInput = value[inputFieldName];
                     inputFieldName === "id"
+                }
+                else if (inputFieldName === "GoToID1" || inputFieldName === "GoToID2" || inputFieldName === "GoToID3" || inputFieldName === "GoToID4") {
+                    if (value[inputFieldName] != "" ) {
+                        changeJumpToIDBtn(inputFieldName, true);
+                    }else{
+                        changeJumpToIDBtn(inputFieldName, false);
+                    };
+                    valueInput = value[inputFieldName];
                 }
                 else{
                     valueInput = value[inputFieldName];
