@@ -36,6 +36,10 @@ The ElevenLabs voice generation can create voice lines from the NPC dialogue whi
 
 **Note: API keys are needed for both API services to work. You will also most likely need a subscription or something along the lines to be able to use these services. I am not liable for any costs that might be incurred through the use of this web app.**
 
+### Saving your progress and collaborating
+The web app automatically saves in real time into your browsers appdata (IndexedDB). That means you should never have to save manually. If you are someone who cleans their browser data regularly you should download the database every once in a while for backup. To restore a backup just use the "Upload database" button and upload every backup file individually.
+
+If you want to collaborate with someone there is unfortunately no way to directly write into the same database as the web app is run locally. However, you can, in the same way you download and upload your database for a backup, also merge two dialogue databases. Download your database and send just the **dialogue-store.json** to the person you're collaborating with. Then they can upload the **dialogue-store.json** onto their web app (even if they already added dialogue themselves) and the web app will merge the two databases.
 
 ## Who is this GitHub Project for?
 This GitHub project is meant for devs who want to make the web app better or for writers who want to have a local copy of the web app, instead of using the website.
