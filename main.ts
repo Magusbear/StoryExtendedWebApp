@@ -67,7 +67,7 @@ let aiCharQuote = "";
 let aiStaticPrompt = "";
 let generatedAudioUrl = "";
 let generatedAudio: HTMLAudioElement | null = document.createElement('audio');
-let newInput; // declare the variable outside the event listener
+let newInput;
 let newDialogueArray = [];
 let idField = Document;
 let openAiApiKey = "";
@@ -400,7 +400,6 @@ async function writeIntoLocalStorage(){
       .filter(element => element.type !== "file");
 
     let writeData = [];
-    //let entryData!: DialogueObject;
     let entryData: DialogueObject = {} as DialogueObject;
     inputsList.forEach(element  => {
         const  elementValue = element.value;

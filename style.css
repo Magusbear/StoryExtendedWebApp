@@ -12,24 +12,13 @@
 body{
     display:flex;
     background-color: #150d0a;
-    background-image: url(/assets/img/horde_leather_bg.jpg);
+    background-image: url(/assets/img/red_leather_bg.jpg);
     color: #f7b10a;
     font-family: Open Sans,Arial,Helvetica,sans-serif;
-    /* text-transform: uppercase; */
     text-shadow: 0 2px 0 #000,1px 0 5px #000,0 1px 5px #000,-1px 0 5px #000,0 -1px 5px #000;
     justify-content: center;
     flex-direction: column;
 }
-
-/* inputs{
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
-    align-content: center;
-    flex-wrap: wrap;
-    margin: 2rem;
-    width: 80%;
-} */
 
 .heading {
     font-size: 16px;
@@ -47,18 +36,16 @@ body{
     overflow-wrap: break-word;
     padding: 1rem;
     width: 100%;
-    /* align-content: center; */
     flex-wrap: wrap;
 }
 
 .input-ctn{
     background-color: #222222;
-    background-image: url(/assets/img/Box-leather-grey.jpg);
+    background-image: url(/assets/img/dark_leather_bg.jpg);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    /* border: 10px solid firebrick; */
     flex-grow: 1;
     padding: 2rem;
     margin: .2rem;
@@ -68,7 +55,6 @@ body{
 }
 
 .input-column-ctn {
-    /* border: 10px solid firebrick; */
     flex-direction: column;
     display:flex;
     padding: 1rem;
@@ -76,43 +62,23 @@ body{
     justify-items: stretch;
 }
 
-/* World Of Warcraft web page Iron Buttons*/
-.IronButton {
+.WcLikeButton {
     font-size: 1.08rem;
     line-height: 1.5;
     font-family: Open Sans,Arial,Helvetica,sans-serif;
-    color: #fff;
-    text-shadow: 0 0 1px transparent,0 1px 2px rgba(0,0,0,.8);
-    font-weight: 400;
     border-color: transparent;
     border-style: solid;
-    border-width: 7px 8px;
-    border-radius: 18px;
-    background: #141414;
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#141414),color-stop(30%,#161616),color-stop(50%,#1e1e1e),color-stop(65%,#262626),color-stop(80%,#292929));
-    background: linear-gradient(0deg,#141414 20%,#161616 30%,#1e1e1e 50%,#262626 65%,#292929 80%);
+    border-width: 7px;
+    border-radius: 15px;
     display: inline-block;
     cursor: pointer;
-    text-decoration: none;
     text-align: center;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    margin: 0;
-    padding: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
     position: relative;
-    -webkit-box-shadow: 0 4px 10px 2px rgba(0,0,0,.75);
-    box-shadow: 0 4px 10px 2px rgba(0,0,0,.75);
     max-height: 65px;
 }
 
-.IronButton:after,.IronButton:before {
+.WcLikeButton:after,.WcLikeButton:before {
     content: "";
-    pointer-events: none;
     position: absolute;
     left: 0;
     top: 0;
@@ -121,47 +87,28 @@ body{
     display: block
 }
 
-.IronButton:before {
-    background: #1a1a1a;
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#1a1a1a),color-stop(30%,#1c1c1c),color-stop(50%,#242424),color-stop(65%,#2c2c2c),color-stop(80%,#2f2f2f));
-    background: linear-gradient(0deg,#1a1a1a 20%,#1c1c1c 30%,#242424 50%,#2c2c2c 65%,#2f2f2f 80%);
-    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+.WcLikeButton:before {
     opacity: 0
 }
 
-.IronButton.IronButton--primary {
-    background: #4e0000;
-    background: transparent -webkit-gradient(linear,left bottom,left top,color-stop(20%,#4e0000),color-stop(30%,#500),color-stop(50%,#700000),color-stop(65%,#8d0000),color-stop(80%,#860000)) 50% repeat;
-    background: transparent linear-gradient(0deg,#4e0000 20%,#500 30%,#700000 50%,#8d0000 65%,#860000 80%) 50% repeat
+.WcLikeButton.WcLikeButton--primary {
+    background: transparent linear-gradient(0deg,#4e0000 20%,#860000 80%) 50% repeat
 }
 
-.IronButton.IronButton--primary:before {
-    background: #600000;
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(20%,#600000),color-stop(30%,#680000),color-stop(50%,#8f0000),color-stop(65%,#b40000),color-stop(80%,#ae0000));
-    background: linear-gradient(0deg,#600000 20%,#680000 30%,#8f0000 50%,#b40000 65%,#ae0000 80%)
+.WcLikeButton.WcLikeButton--primary:before {
+    background: linear-gradient(0deg,#600000 20%,#ae0000 80%)
 }
 
-.IronButton:after {
-    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    border-image-outset: 7px 8px 7px 8px;
+.WcLikeButton:after {
+    border-image-outset: 7px;
     border-image-width: 16px;
     border-image-slice: 16 fill;
-    border-image-source: url(/assets/img/metal_frame.png);
+    border-image-source: url(/assets/img/button_frame.png);
     border-image-repeat: round
 }
 
-.IronButton-inner {
-    /* position: relative; */
-    padding: 12px 18px 14px;
-}
-
-.IronButton-inner:after,.IronButton-inner:before {
+.WcLikeButton-inner:after,.WcLikeButton-inner:before {
     content: "";
-    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    pointer-events: none;
     position: absolute;
     left: 0;
     top: 0;
@@ -170,35 +117,25 @@ body{
     display: block
 }
 
-.IronButton-inner:before {
+.WcLikeButton-inner:after {
+    background: transparent url(/assets/img/button_inner_texture_dark.png) 0 0 repeat;
+    background-size: 200px
+}
+
+.WcLikeButton--primary .WcLikeButton-inner:before {
     border-image-width: 11px 13px;
     border-image-slice: 11 13 fill;
     border-image-repeat: round;
     border-image-outset: 0;
-    border-image-source: url(/assets/img/ui_button_black_border.png)
+    border-image-source: url(/assets/img/button_inner_border.png)
 }
 
-.IronButton-inner:after {
-    background: transparent url(/assets/img/ui_button_black_texture.png) 0 0 repeat;
+.WcLikeButton--primary .WcLikeButton-inner:after {
+    background: transparent url(/assets/img/button_inner_texture_red.png) 0 0 repeat;
     background-size: 200px
 }
 
-.IronButton--primary .IronButton-inner:before {
-    border-image-width: 11px 13px;
-    border-image-slice: 11 13 fill;
-    border-image-repeat: round;
-    border-image-outset: 0;
-    border-image-source: url(/assets/img/ui_button_red_border.png)
-}
-
-.IronButton--primary .IronButton-inner:after {
-    background: transparent url(/assets/img/ui_button_red_texture.png) 0 0 repeat;
-    background-size: 200px
-}
-
-.IronButton-label {
-    -webkit-transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
-    transition: all .3s cubic-bezier(.23,1,.32,1) 0s;
+.WcLikeButton-label {
     color: #f7b10a;
     text-transform: uppercase;
     text-shadow: 0 2px 0 #000,1px 0 5px #000,0 1px 5px #000,-1px 0 5px #000,0 -1px 5px #000;
@@ -209,56 +146,36 @@ body{
     white-space: nowrap
 }
 
-html:not(.touch) .IronButton:hover {
-    background-color: #ae0000
+.WcLikeButton:hover {
+    background-color: #ae0000;
+
 }
 
-html:not(.touch) .IronButton:hover:before {
-    opacity: 1
+.WcLikeButton:hover:before {
+    opacity: 1;
 }
 
-html:not(.touch) .IronButton:hover:after {
-    -webkit-filter: brightness(1.1);
-    filter: brightness(1.1)
-}
-
-html:not(.touch) .IronButton:hover .IronButton-inner:before {
-    -webkit-filter: brightness(1.2);
-    filter: brightness(1.2)
-}
-
-html:not(.touch) .IronButton:hover .IronButton-label {
+.WcLikeButton:hover .WcLikeButton-label {
     color: #fff
 }
 
-html:not(.touch) .IronButton:active:before {
-    -webkit-transition: all .1s cubic-bezier(.23,1,.32,1) 0s;
-    transition: all .1s cubic-bezier(.23,1,.32,1) 0s;
-    opacity: .3
-}
+
 @media (min-width: 980px) {
-    .IronButton-inner {
+    .WcLikeButton-inner {
         padding:16px 22px 18px
     }
 }
 @media (min-width: 720px) {
-    .IronButton {
+    .WcLikeButton {
         font-size:.8rem
     }
 }
 
 @media (min-width: 1280px) {
-    .IronButton {
+    .WcLikeButton {
         font-size:1rem
     }
 }
-
-/* @media (min-width: 980px) {
-    html:not(.touch) .IronButton:active .IronButton-label {
-        top:1px
-    }
-} */
-/* World Of Warcraft web page Iron Buttons*/
 
 /* Database delete modal code begin*/
 .dbDelModal {
@@ -289,17 +206,14 @@ html:not(.touch) .IronButton:active:before {
   .button-container {
     margin-top: 20px;
   }
-  /* Database delete modal code end*/
+
 
 .APIKeys{
     gap: 2rem;
     display: none;
     visibility: hidden;
-    /* display:flex; */
     flex-direction: row;
     justify-content: space-around; 
-    /* margin-top: 0px;
-    max-height: 200px; */
 }
 .APIKeys * {
     display: none;
@@ -311,7 +225,6 @@ html:not(.touch) .IronButton:active:before {
     display:flex;
     justify-content: center;
     flex-direction: row;
-    /* max-height: 80px; */
     align-items: center;
     gap: 0.5rem;
 }
@@ -320,7 +233,6 @@ html:not(.touch) .IronButton:active:before {
     display:flex;
     justify-content: center;
     flex-direction: column;
-    /* max-height: 80px; */
     align-items: center;
     gap: 0.5rem;
 }
@@ -351,30 +263,11 @@ html:not(.touch) .IronButton:active:before {
     word-break: break-all;
 }
 
-/* .AiStorageList{
-    display:none;
-    background-color: #222222;
-    background-image: url(/assets/img/Box-leather-grey.jpg);
-    border: 1px solid rgb(209,213,219);
-    border-radius: .5rem;
-    box-sizing: border-box;
-    margin: 15% auto;
-    padding: 20px;
-} */
 
 .UtilityBtns {
-    /* margin-left: 100px; */
     display: flex;
     justify-content: space-between;
 }
-
-/* #importFileInput{
-    align-self: flex-end;
-}
-
-#uploadDbBtn{
-    align-self: flex-end;
-} */
 
 
 button#playAiVoice{
@@ -388,7 +281,7 @@ button#dlAiVoice{
 }
 
 #AiVoiceList {
-    display: none; /* none */
+    display: none;
     flex-direction: column;
 }
 
@@ -416,11 +309,9 @@ button#dlAiVoice{
     display: flex;
 };
 
-
-
 #AiVoiceList li {
     list-style: none;
-    flex-basis: 50%; /* Set the width to 50% to have 2 items in each row */
+    flex-basis: 50%;
     box-sizing: border-box;
     padding: 5px;
     flex-grow: 1;
@@ -457,7 +348,6 @@ button#dlAiVoice{
     padding: 1rem;
 }
 
-
 #AiVoiceList li:hover {
     outline: 2px solid transparent;
     outline-offset: 2px;
@@ -470,7 +360,6 @@ button#dlAiVoice{
     padding: .5rem;
 }
 
-
 button.top-btn-small {
     font-size: .5 rem;
     padding: .25rem .25rem;
@@ -479,44 +368,19 @@ button.top-btn-small {
     flex-shrink: 0;
 }
 
-/* Style the dropdown button */
-/* .dropdown-btn {
-    background-color: #FFFFFF;
-    border: 1px solid rgb(209,213,219);
-    border-radius: .5rem;
-    box-sizing: border-box;
-    color: #111827;
-    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    font-size: .875rem;
-    font-weight: 600;
-    line-height: 1.25rem;
-    padding: .75rem 1rem;
-    text-align: center;
-    text-decoration: none #D1D5DB solid;
-    text-decoration-thickness: auto;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  } */
-  
-  /* Style the dropdown content */
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #000000;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-
     border: 1px solid rgb(209,213,219);
     border-radius: .5rem;
     box-sizing: border-box;
-  }
-  
-  /* Style the dropdown links */
-  .dropdown-content a {
+}
+
+.dropdown-content a {
     color: rgb(255, 255, 255);
     padding: 12px 16px;
     font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
@@ -529,17 +393,15 @@ button.top-btn-small {
     text-decoration-thickness: auto;
     display: block;
     cursor: pointer;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {
+}
+
+.dropdown-content a:hover {
     background-color: #ddd;
-  }
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
+}
+
+.dropdown:hover .dropdown-content {
     display: block;
-  }
+}
 
 
 
@@ -550,7 +412,6 @@ select {
     border-radius: .4rem;
     box-sizing: border-box;
     padding: .5rem;
-    /* margin-bottom: 10px; */
 }
 
 textarea {
@@ -559,7 +420,6 @@ textarea {
     border: 1px solid rgb(209,213,219);
     border-radius: .4rem;
     box-sizing: border-box;
-    /* flex-grow: 1; */
     min-height: 10rem;
     padding: .8rem;
     font-size: 16px;
@@ -580,7 +440,6 @@ input[type="checkbox"] {
     min-width: 1.5rem;
 }
 
-/* Checkbox Styling overwrite*/
 input[type=checkbox]:before {
     content: "";
     display: block;
@@ -607,7 +466,6 @@ input[type=checkbox]:before {
     color: #FFFFFF;
   }
 
-/* The List of database(IndexedDB) entries */
 #localStorageList {
     background-image: url(/assets/img/Box-leather-grey.jpg);
     list-style: none;
@@ -631,21 +489,14 @@ input[type=checkbox]:before {
     cursor: pointer;
 }
 
-
-@media screen and (min-width: 1400px){
-    #Text {
-        max-width: auto;
-    }
-}
-
 /* Spinning Loader from https://loading.io/css */
 .lds-dual-ring {
     display: none;
     width: 80px;
     height: 80px;
     margin-bottom: 50px;
-  }
-  .lds-dual-ring:after {
+}
+.lds-dual-ring:after {
     content: " ";
     display: block;
     width: 64px;
@@ -655,19 +506,24 @@ input[type=checkbox]:before {
     border: 6px solid #000000;
     border-color: #000000 transparent #000000 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
-  }
-  @keyframes lds-dual-ring {
+}
+@keyframes lds-dual-ring {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
   /*END Spinning Loader from https://loading.io/css */
 
 
 /* responsive changes */
+@media screen and (min-width: 1400px){
+    #Text {
+        max-width: auto;
+    }
+}
 @media screen and (max-width: 1300px){
     .wrapper {
         flex-direction: column;
@@ -709,7 +565,6 @@ input[type=checkbox]:before {
         display:flex;
         flex-direction: row;
         margin-left: 3.6rem;
-        /* border: 10px solid firebrick; */
     }
     .AiOptions * {
         display: flex;
